@@ -3,6 +3,9 @@
 
 #include <QDebug>
 
+#define IS_SPACE(c) ((c == ' ') || (c == '\n') || (c == '\t') || (c != 0))
+#define PARSE_ERROR(s,n) throw parse_error(QString(s) + " symb: " + QString::number(n) + " str: " + QString::number(findStrN(n)))
+
 LispString::Item * LispString::parseAtom(char * str, int * i)
 {
     Item * atom = new Item;
@@ -33,7 +36,7 @@ LispString::Item * LispString::parseAtom(char * str, int * i)
             (*i)++;
         }
         (data)[j] = 0;
-        if ((data[0] >= '0') && (data[0] <= '9') || ((data[0] == '-') && (data[1] >= '0') && (data[1] <= '9')))
+        if (((data[0] >= '0') && (data[0] <= '9')) || ((data[0] == '-') && (data[1] >= '0') && (data[1] <= '9')))
         {
             double * floatNum = new double;
             *floatNum = atof(data);
@@ -50,7 +53,7 @@ LispString::Item * LispString::parseAtom(char * str, int * i)
     return atom;
 }
 
-LispString::Item * LispString::parseList(char * str, int * i)
+LispString::Item * LispString::parseList(char * str, int * i, bool noFrame)
 {
     Item * list = new Item;
     list->dataType = LIST;
@@ -60,6 +63,8 @@ LispString::Item * LispString::parseList(char * str, int * i)
     while (1)
     {
         (*i)++;
+        if (*i > 1000)
+            PARSE_ERROR("Prog length must be < 1000 ", *i);
         switch (str[*i])
         {
             case '(':
@@ -71,11 +76,37 @@ LispString::Item * LispString::parseList(char * str, int * i)
                     current = current->next;
                 }
                 break;
-            case ')': return list; break;
+            case '{':
+                if (current == 0)
+                    list->data = current = parsePacket(str,i);
+                else
+                {
+                    current->next = parsePacket(str,i);
+                    current = current->next;
+                }
+                break;
+            case ')':
+                if (!noFrame)
+                    return list;
+                else
+                    PARSE_ERROR("Bad string end must be \':\' or \';\' ",*i);
+                break;
             case ' ': break;
             case '\n': break;
             case '\'': break;
             case '\t': break;
+            case 0:
+            case ';':
+            case ':':
+            case '}':
+                if (noFrame) // If we came here from parsePacket
+                {
+                    (*i)--;
+                    return list;
+                }
+                else
+                    PARSE_ERROR("Bracket missed ",*i);
+                break;
             default:
                 if (current == 0)
                     list->data = current = parseAtom(str,i);
@@ -84,19 +115,97 @@ LispString::Item * LispString::parseList(char * str, int * i)
                     current->next = parseAtom(str,i);
                     current = current->next;
                 }
+                break;
         }
-
     }
     return list;
 }
 
+LispString::Item * LispString::parsePacket(char * str, int * i, bool first)
+{
+    (void)str;
+    (void)i;
+    Item * packet = new Item();
+    packet->dataType = LIST;
+    packet->data = 0;
+    Item * current = 0;
+    if (!first)
+    {
+        Item * nameAtom = new Item();
+        nameAtom->data = (void *)"prog";
+        nameAtom->dataType = ATOM;
+        nameAtom->next = 0;
+        current = nameAtom;
+        packet->data = (void *)current;
+    }
+    while (1)
+    {
+        (*i)++;
+        if (*i > 1000)
+            PARSE_ERROR("Prog length must be < 1000 ", *i);
+        switch (str[*i])
+        {
+            case ';': break;
+            case ':': break;
+            case '}': return packet; break;
+            case ' ': break;
+            case '\n': break;
+            case '\t': break;
+            case 0:
+                if (first)
+                    return packet;
+                else
+                    PARSE_ERROR("Bracket missed P ",*i);
+                break;
+            default:
+                (*i)--;
+                if (current == 0)
+                {
+                    current = parseList(str, i,true);
+                    packet->data = current;
+                }
+                else
+                {
+                    current->next = parseList(str, i, true);
+                    current = current->next;
+                }
+                current->next = 0;
+                break;
+        }
+    }
+}
+
+int LispString::findStrN(int n)
+{
+    int count = 0;
+    for (int i = 0; i < n; i++)
+        if (str[i] == '\n')
+            count++;
+    return count;
+}
+
 void LispString::setLispString(char * str)
 {
-    int i = 0;
-    if (str[0] == '(')
-        firstItem = parseList(str, &i);
-    else
-        firstItem = parseAtom(str, &i);
+    try
+    {
+        this->str = str;
+        int i = 0;
+        if (str[0] == '(')
+            firstItem = parseList(str, &i);
+        else
+        {
+            if (str[0] != '{')
+                i--;
+            firstItem = parsePacket(str, &i,true);
+            valid = true;
+        }
+    }
+    catch (parse_error & e)
+    {
+        qDebug() << e.str;
+        firstItem = 0;
+        valid = false;
+    }
 }
 
 #ifdef _QT_

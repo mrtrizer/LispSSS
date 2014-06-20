@@ -27,9 +27,19 @@
 class LispString
 {
 public:
-    ///@brief Один элемент синтаксического дерева.
-    typedef struct Item
+    ///@brief exception class
+    class parse_error
     {
+    public:
+        parse_error(QString str){this->str = str;}
+        QString str;
+    };
+
+    ///@brief Один элемент синтаксического дерева.
+    typedef class Item
+    {
+    public:
+        Item():data(0),dataType(0),next(0){}
         void * data;
         unsigned char dataType;
         Item * next;
@@ -48,13 +58,18 @@ public:
 private:
     ///@brief Определяет правильность строки. Определяется на этапе разбора.
     bool valid;
+    char * str;
     ///@brief Первый элемент. Определяет корень синтаксического дерева.
     Item * firstItem;
     ///@brief Анализирует атом. Определяет тип и содержание.
     Item * parseAtom(char * str, int * i);
     ///@brief Парсит список (рекурсивная)
-    Item * parseList(char * str, int * i);
-
+    Item * parseList(char * str, int * i, bool noFrame = false);
+    ///@brief Parse packet
+    Item * parsePacket(char * str, int * i, bool first = false);
+    ///@brief Search str number. It is need for debug.
+    int findStrN(int n);
+    ///@brief Starts parsing
     void setLispString(char *str);
 
     //Только для Qt (_QT_ искать в config.h)
