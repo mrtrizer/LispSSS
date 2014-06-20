@@ -23,4 +23,4 @@ HEADERS += \
     config.h
 
 OTHER_FILES += \
-    NOTES.txt
+    README

@@ -87,9 +87,10 @@ LispString::Item * LispString::parseList(char * str, int * i)
         }
 
     }
+    return list;
 }
 
-LispString::LispString(char * str)
+void LispString::setLispString(char * str)
 {
     int i = 0;
     if (str[0] == '(')

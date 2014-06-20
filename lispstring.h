@@ -35,12 +35,12 @@ public:
         Item * next;
     } Item;
     ///@brief Конструктор
-    LispString(char *str);
+    LispString(char *str){setLispString(str);}
     ///@brief Возвращает результат парсинга строки.
     bool isValid(){return valid;}
 #ifdef _QT_
     ///@brief Конструктор, переопределенный для Qt
-    LispString(const QString & str) {LispString(str.toLocal8Bit().data());}
+    LispString(const QString & str){setLispString(str.toLocal8Bit().data());}
     ///@brief Приведение к строке для Qt.
     QString toString();
 #endif
@@ -54,6 +54,8 @@ private:
     Item * parseAtom(char * str, int * i);
     ///@brief Парсит список (рекурсивная)
     Item * parseList(char * str, int * i);
+
+    void setLispString(char *str);
 
     //Только для Qt (_QT_ искать в config.h)
 #ifdef _QT_
