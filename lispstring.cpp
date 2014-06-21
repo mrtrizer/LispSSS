@@ -11,7 +11,7 @@
 LispNode * LispString::parseAtom(char * str, int * i)
 {
     LispNode * atom = new LispNode;
-    atom->dataType = ATOM;
+    atom->dataType = LispNode::ATOM;
     char * data = new char[255];
 
     int j = 0;
@@ -26,7 +26,7 @@ LispNode * LispString::parseAtom(char * str, int * i)
         }
         (*i)++;
         data[j] = 0;
-        atom->dataType = ATOM_STR;
+        atom->dataType = LispNode::ATOM_STR;
         atom->data = data;
     }
     else
@@ -43,7 +43,7 @@ LispNode * LispString::parseAtom(char * str, int * i)
             double * floatNum = new double;
             *floatNum = atof(data);
             atom->data = (void *) floatNum;
-            atom->dataType = ATOM_FLOAT;
+            atom->dataType = LispNode::ATOM_FLOAT;
             delete []data;
         }
         else
@@ -58,7 +58,7 @@ LispNode * LispString::parseAtom(char * str, int * i)
 LispNode * LispString::parseList(char * str, int * i, bool noFrame)
 {
     LispNode * list = new LispNode;
-    list->dataType = LIST;
+    list->dataType = LispNode::LIST;
     list->data = 0;
     list->next = 0;
     LispNode * current = 0;
@@ -128,7 +128,7 @@ LispNode * LispString::parsePacket(char * str, int * i, bool first)
     (void)str;
     (void)i;
     LispNode * packet = new LispNode();
-    packet->dataType = LIST;
+    packet->dataType = LispNode::LIST;
     packet->data = 0;
     LispNode * current = 0;
     LispNode * nameAtom = new LispNode();
@@ -136,7 +136,7 @@ LispNode * LispString::parsePacket(char * str, int * i, bool first)
         nameAtom->data = (void *)"__function_list";
     else
         nameAtom->data = (void *)"prog";
-    nameAtom->dataType = ATOM;
+    nameAtom->dataType = LispNode::ATOM;
     nameAtom->next = 0;
     current = nameAtom;
     packet->data = (void *)current;
@@ -212,61 +212,11 @@ void LispString::setLispString(char * str)
 
 #ifdef _QT_
 
-void LispString::printAtom(LispNode * item, QString * str)
-{
-    switch (item->dataType)
-    {
-        case ATOM:
-            str->append((char *)item->data);
-            str->append('\n');
-        break;
-        case ATOM_STR:
-            str->append('\"');
-            str->append((char *)item->data);
-            str->append('\"');
-            str->append('\n');
-        break;
-        case ATOM_INT:
-            str->append(QString::number(*((int *)item->data)));
-            str->append('\n');
-        break;
-        case ATOM_FLOAT:
-            str->append(QString::number(*((double *)item->data)));
-            str->append('\n');
-        break;
-    }
-}
-
-void LispString::printList(LispNode * root, QString * str, int n)
-{
-    LispNode * tmp = root;
-    while (tmp != 0)
-    {
-        for (int i = 0; i < n; i++)
-            str->append((char)'-');
-        str->append((char)'|');
-        str->append(' ');
-        if (tmp->dataType == LIST)
-        {
-            str->append(QString("list\n"));
-            printList((LispNode *)tmp->data,str,n+1);
-        }
-        else
-            printAtom(tmp,str);
-        tmp = tmp->next;
-    }
-}
-
 QString LispString::toString()
 {
-    QString text;
     if (!valid)
-        return QString("Not valid!");
-    if (firstItem->dataType == LIST)
-        printList(firstItem,&text);
-    else
-        printAtom(firstItem,&text);
-    return text;
+        return "Not valid script! See messages.";
+    return QString::fromStdString(firstItem->toString());
 }
 #endif
 

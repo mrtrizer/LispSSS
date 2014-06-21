@@ -15,13 +15,13 @@
 #define MACRO 4 //Lisp. Не вычисляющие значения агрументов. Максросы.
 
 //Lexem type
-#define LIST 0
-#define ATOM 1
-#define ATOM_STR 2
-#define ATOM_INT 3
-#define ATOM_FLOAT 4
-#define ATOM_T 5
-#define ATOM_NIL 6
+//#define LIST 0
+//#define ATOM 1
+//#define ATOM_STR 2
+//#define ATOM_INT 3
+//#define ATOM_FLOAT 4
+//#define ATOM_T 5
+//#define ATOM_NIL 6
 
 #include "message.h"
 
@@ -77,15 +77,6 @@ private:
     int findStrN(int n);
     ///@brief Starts parsing
     void setLispString(char *str);
-
-    //Только для Qt (_QT_ искать в config.h)
-#ifdef _QT_
-    QString errorMessage;
-    ///@brief Добавляет к str атом
-    void printAtom(LispNode * item, QString *str);
-    ///@brief Добавляет к str список (рекурсивная)
-    void printList(LispNode * root, QString *str, int n = 0);
-#endif
 };
 
 #endif // LISPSTRING_H
