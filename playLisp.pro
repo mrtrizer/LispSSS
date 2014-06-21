@@ -14,13 +14,27 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
+QMAKE_CXXFLAGS += -std=gnu++11
 
 SOURCES += main.cpp \
-    lispstring.cpp
+    lispstring.cpp \
+    message.cpp \
+    lispexecuter.cpp \
+    heap.cpp \
+    stack.cpp \
+    var.cpp \
+    lispnode.cpp
 
 HEADERS += \
     lispstring.h \
-    config.h
+    config.h \
+    message.h \
+    lispexecuter.h \
+    heap.h \
+    stack.h \
+    var.h \
+    lispnode.h
 
 OTHER_FILES += \
-    README
+    README \
+    calc_ssslisp.lsp

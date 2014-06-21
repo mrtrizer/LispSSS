@@ -23,32 +23,36 @@
 #define ATOM_T 5
 #define ATOM_NIL 6
 
+#include "message.h"
+
+#include <vector>
+
+class LispNode;
+
 ///@brief Класс лисп строки. В конструкторе парсит строку и предоставляет доступ к синтаксическому дереву строки.
 class LispString
 {
 public:
-    ///@brief exception class
+    ///@brief Exception class
     class parse_error
     {
     public:
-        parse_error(QString str){this->str = str;}
-        QString str;
+        parse_error(const Message & message):message(message){}
+        Message & getMessage(){return message;}
+    private:
+        Message message;
     };
 
-    ///@brief Один элемент синтаксического дерева.
-    typedef class Item
-    {
-    public:
-        Item():data(0),dataType(0),next(0){}
-        void * data;
-        unsigned char dataType;
-        Item * next;
-    } Item;
     ///@brief Конструктор
     LispString(char *str){setLispString(str);}
     ///@brief Возвращает результат парсинга строки.
     bool isValid(){return valid;}
+    ///@brief Returns messages
+    const std::vector<Message> & getMessages(){return messages;}
+
 #ifdef _QT_
+    ///@brief Method returns
+    QString getErrorMessages();
     ///@brief Конструктор, переопределенный для Qt
     LispString(const QString & str){setLispString(str.toLocal8Bit().data());}
     ///@brief Приведение к строке для Qt.
@@ -58,15 +62,17 @@ public:
 private:
     ///@brief Определяет правильность строки. Определяется на этапе разбора.
     bool valid;
+    std::vector<Message> messages;
+    ///@brief String for parsing
     char * str;
     ///@brief Первый элемент. Определяет корень синтаксического дерева.
-    Item * firstItem;
+    LispNode * firstItem;
     ///@brief Анализирует атом. Определяет тип и содержание.
-    Item * parseAtom(char * str, int * i);
+    LispNode * parseAtom(char * str, int * i);
     ///@brief Парсит список (рекурсивная)
-    Item * parseList(char * str, int * i, bool noFrame = false);
+    LispNode * parseList(char * str, int * i, bool noFrame = false);
     ///@brief Parse packet
-    Item * parsePacket(char * str, int * i, bool first = false);
+    LispNode * parsePacket(char * str, int * i, bool first = false);
     ///@brief Search str number. It is need for debug.
     int findStrN(int n);
     ///@brief Starts parsing
@@ -74,10 +80,11 @@ private:
 
     //Только для Qt (_QT_ искать в config.h)
 #ifdef _QT_
+    QString errorMessage;
     ///@brief Добавляет к str атом
-    void printAtom(Item * item, QString *str);
+    void printAtom(LispNode * item, QString *str);
     ///@brief Добавляет к str список (рекурсивная)
-    void printList(Item * root, QString *str, int n = 0);
+    void printList(LispNode * root, QString *str, int n = 0);
 #endif
 };
 

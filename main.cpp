@@ -20,8 +20,11 @@ int main(int argc, char *argv[])
     //scanf("%s\n",&str);
     //qDebug() << cstr;
     LispString lispStr(text.c_str());
-    if (lispStr.isValid())
-        qDebug() << lispStr.toString();
+    qDebug() << lispStr.toString();
+    std::vector<Message> messages = lispStr.getMessages();
+    std::vector<Message>::iterator i;
+    for (i = messages.begin(); i != messages.end(); i++)
+        qDebug() << QString::fromStdString(i->toString());
     //printf("%s\n",lispStr.toString().toLatin1().data());
     getchar();
     return 0;

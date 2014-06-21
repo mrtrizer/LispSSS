@@ -1,14 +1,16 @@
 #include "lispstring.h"
 #include "stdio.h"
+#include "lispnode.h"
 
 #include <QDebug>
+#include <assert.h>
 
 #define IS_SPACE(c) ((c == ' ') || (c == '\n') || (c == '\t') || (c != 0))
-#define PARSE_ERROR(s,n) throw parse_error(QString(s) + " symb: " + QString::number(n) + " str: " + QString::number(findStrN(n)))
+#define PARSE_ERROR(s,n) throw parse_error(Message(s,findStrN(n),n,Message::ERROR))
 
-LispString::Item * LispString::parseAtom(char * str, int * i)
+LispNode * LispString::parseAtom(char * str, int * i)
 {
-    Item * atom = new Item;
+    LispNode * atom = new LispNode;
     atom->dataType = ATOM;
     char * data = new char[255];
 
@@ -53,13 +55,13 @@ LispString::Item * LispString::parseAtom(char * str, int * i)
     return atom;
 }
 
-LispString::Item * LispString::parseList(char * str, int * i, bool noFrame)
+LispNode * LispString::parseList(char * str, int * i, bool noFrame)
 {
-    Item * list = new Item;
+    LispNode * list = new LispNode;
     list->dataType = LIST;
     list->data = 0;
     list->next = 0;
-    Item * current = 0;
+    LispNode * current = 0;
     while (1)
     {
         (*i)++;
@@ -105,7 +107,7 @@ LispString::Item * LispString::parseList(char * str, int * i, bool noFrame)
                     return list;
                 }
                 else
-                    PARSE_ERROR("Bracket missed ",*i);
+                    PARSE_ERROR("Bracket missed",*i);
                 break;
             default:
                 if (current == 0)
@@ -121,28 +123,28 @@ LispString::Item * LispString::parseList(char * str, int * i, bool noFrame)
     return list;
 }
 
-LispString::Item * LispString::parsePacket(char * str, int * i, bool first)
+LispNode * LispString::parsePacket(char * str, int * i, bool first)
 {
     (void)str;
     (void)i;
-    Item * packet = new Item();
+    LispNode * packet = new LispNode();
     packet->dataType = LIST;
     packet->data = 0;
-    Item * current = 0;
-    if (!first)
-    {
-        Item * nameAtom = new Item();
+    LispNode * current = 0;
+    LispNode * nameAtom = new LispNode();
+    if (first)
+        nameAtom->data = (void *)"__function_list";
+    else
         nameAtom->data = (void *)"prog";
-        nameAtom->dataType = ATOM;
-        nameAtom->next = 0;
-        current = nameAtom;
-        packet->data = (void *)current;
-    }
+    nameAtom->dataType = ATOM;
+    nameAtom->next = 0;
+    current = nameAtom;
+    packet->data = (void *)current;
     while (1)
     {
         (*i)++;
         if (*i > 1000)
-            PARSE_ERROR("Prog length must be < 1000 ", *i);
+            PARSE_ERROR("Prog length must be < 1000", *i);
         switch (str[*i])
         {
             case ';': break;
@@ -155,7 +157,7 @@ LispString::Item * LispString::parsePacket(char * str, int * i, bool first)
                 if (first)
                     return packet;
                 else
-                    PARSE_ERROR("Bracket missed P ",*i);
+                    PARSE_ERROR("Bracket missed P",*i);
                 break;
             default:
                 (*i)--;
@@ -202,7 +204,7 @@ void LispString::setLispString(char * str)
     }
     catch (parse_error & e)
     {
-        qDebug() << e.str;
+        messages.push_back(e.getMessage());
         firstItem = 0;
         valid = false;
     }
@@ -210,7 +212,7 @@ void LispString::setLispString(char * str)
 
 #ifdef _QT_
 
-void LispString::printAtom(Item * item, QString * str)
+void LispString::printAtom(LispNode * item, QString * str)
 {
     switch (item->dataType)
     {
@@ -235,9 +237,9 @@ void LispString::printAtom(Item * item, QString * str)
     }
 }
 
-void LispString::printList(Item * root, QString * str, int n)
+void LispString::printList(LispNode * root, QString * str, int n)
 {
-    Item * tmp = root;
+    LispNode * tmp = root;
     while (tmp != 0)
     {
         for (int i = 0; i < n; i++)
@@ -247,7 +249,7 @@ void LispString::printList(Item * root, QString * str, int n)
         if (tmp->dataType == LIST)
         {
             str->append(QString("list\n"));
-            printList((Item *)tmp->data,str,n+1);
+            printList((LispNode *)tmp->data,str,n+1);
         }
         else
             printAtom(tmp,str);
@@ -258,6 +260,8 @@ void LispString::printList(Item * root, QString * str, int n)
 QString LispString::toString()
 {
     QString text;
+    if (!valid)
+        return QString("Not valid!");
     if (firstItem->dataType == LIST)
         printList(firstItem,&text);
     else
