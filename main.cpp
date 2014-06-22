@@ -13,7 +13,8 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     //std::ifstream ifs("../src/calc.lsp");
-    std::ifstream ifs("../src/calc_ssslisp.lsp");
+    //std::ifstream ifs("../src/calc_ssslisp.lsp");
+    std::ifstream ifs("../src/test.sss");
     std::stringstream ss;
     ss << ifs.rdbuf ();
     std::string text = ss.str();
@@ -21,6 +22,8 @@ int main(int argc, char *argv[])
     qDebug() << text.size();
     {
         LispString lispStr(text.c_str());
+        LispNode test(*lispStr.getRoot());
+        qDebug() << QString::fromStdString(test.toString());
         qDebug() << lispStr.toString();
         LispExecuter lispExecuter(&lispStr,&std::cout,&std::cout,&std::cin);
         lispExecuter.run();

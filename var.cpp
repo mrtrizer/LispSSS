@@ -1,7 +1,12 @@
 #include "var.h"
+#include "lispnode.h"
 
-Var::Var(const std::string & name, const LispNode & data)
+Var::Var(const std::string & name, Data * data):name(name),value(data)
 {
-    this->name = name;
-    this->data = data;
+
+}
+
+Var::Var():value(new AtomNilData())
+{
+
 }

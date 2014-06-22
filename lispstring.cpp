@@ -22,45 +22,32 @@ LispString::~LispString()
 LispNode * LispString::parseAtom(char * str, int * i)
 {
     LispNode * atom = new LispNode;
-    atom->dataType = LispNode::ATOM;
-    char * data = new char[255];
 
-    int j = 0;
+    int iStart = *i;
     if (str[*i] == '\"')
     {
         (*i)++;
         while (str[*i] != '\"')
-        {
-            data[j] = str[*i];
-            j++;
             (*i)++;
-        }
         (*i)++;
-        data[j] = 0;
-        atom->dataType = LispNode::ATOM_STR;
-        atom->data = data;
+        atom->data = new AtomStrData(std::string(str + iStart,*i - iStart - 1));
     }
     else
     {
-        while ((str[*i] != '\t') && (str[*i] != '\n') && (str[*i] != ' ') && (str[*i] != ')') && (str[*i] != 0))
-        {
-            (data)[j] = str[*i];
-            j++;
+        //While not lexem end
+        while ((str[*i] != '\t') && (str[*i] != '\n') &&
+               (str[*i] != ' ') && (str[*i] != ')') && (str[*i] != 0))
             (*i)++;
-        }
-        (data)[j] = 0;
-        if (((data[0] >= '0') && (data[0] <= '9')) || ((data[0] == '-') && (data[1] >= '0') && (data[1] <= '9')))
+
+        //Is number
+        if (((str[iStart] >= '0') && (str[iStart] <= '9')) ||
+                ((str[iStart] == '-') && (str[iStart] >= '0') && (str[iStart] <= '9')))
         {
-            double * floatNum = new double;
-            *floatNum = atof(data);
-            atom->data = (void *) floatNum;
-            atom->dataType = LispNode::ATOM_FLOAT;
-            delete []data;
+            std::string numStr(str + iStart,*i - iStart);
+            atom->data = new AtomFloatData(atof(numStr.c_str()));
         }
         else
-        {
-            atom->data = data;
-        }
+            atom->data = new AtomData(std::string(str + iStart,*i - iStart));
     }
     (*i)--;
     return atom;
@@ -69,20 +56,18 @@ LispNode * LispString::parseAtom(char * str, int * i)
 LispNode * LispString::parseList(char * str, int * i, bool noFrame)
 {
     LispNode * list = new LispNode;
-    list->dataType = LispNode::LIST;
-    list->data = 0;
-    list->next = 0;
     LispNode * current = 0;
+    LispNode * firstNode = 0;
     while (1)
     {
         (*i)++;
-        if (*i > 1000)
+        if (*i > 1000) //FOR DEBUG
             PARSE_ERROR("Prog length must be < 1000 ", *i);
         switch (str[*i])
         {
             case '(':
                 if (current == 0)
-                    list->data = current = parseList(str,i);
+                    firstNode = current = parseList(str,i);
                 else
                 {
                     current->next = parseList(str,i);
@@ -91,7 +76,7 @@ LispNode * LispString::parseList(char * str, int * i, bool noFrame)
                 break;
             case '{':
                 if (current == 0)
-                    list->data = current = parsePacket(str,i);
+                    firstNode = current = parsePacket(str,i);
                 else
                 {
                     current->next = parsePacket(str,i);
@@ -100,7 +85,7 @@ LispNode * LispString::parseList(char * str, int * i, bool noFrame)
                 break;
             case ')':
                 if (!noFrame)
-                    return list;
+                    goto EXIT;
                 else
                     PARSE_ERROR("Bad string end must be \':\' or \';\' ",*i);
                 break;
@@ -115,14 +100,14 @@ LispNode * LispString::parseList(char * str, int * i, bool noFrame)
                 if (noFrame) // If we came here from parsePacket
                 {
                     (*i)--;
-                    return list;
+                    goto EXIT;
                 }
                 else
                     PARSE_ERROR("Bracket missed",*i);
                 break;
             default:
                 if (current == 0)
-                    list->data = current = parseAtom(str,i);
+                    firstNode = current = parseAtom(str,i);
                 else
                 {
                     current->next = parseAtom(str,i);
@@ -131,30 +116,24 @@ LispNode * LispString::parseList(char * str, int * i, bool noFrame)
                 break;
         }
     }
+    EXIT: //I used goto because we need create list before return.
+    list->data = new ListData(firstNode);
     return list;
 }
 
 LispNode * LispString::parsePacket(char * str, int * i, bool first)
 {
-    (void)str;
-    (void)i;
     LispNode * packet = new LispNode();
-    packet->dataType = LispNode::LIST;
-    packet->data = 0;
-    LispNode * current = 0;
-    LispNode * nameAtom = new LispNode();
+    LispNode * current = new LispNode();
     if (first)
-        nameAtom->data = (void *)strdup("__global");
+        current->data = new AtomData(std::string("__global"));
     else
-        nameAtom->data = (void *)strdup("prog");
-    nameAtom->dataType = LispNode::ATOM;
-    nameAtom->next = 0;
-    current = nameAtom;
-    packet->data = (void *)current;
+        current->data = new AtomData(std::string("prog"));
+    packet->data = new ListData(current);
     while (1)
     {
         (*i)++;
-        if (*i > 1000)
+        if (*i > 1000) //FOR DEBUG
             PARSE_ERROR("Prog length must be < 1000", *i);
         switch (str[*i])
         {
@@ -172,17 +151,8 @@ LispNode * LispString::parsePacket(char * str, int * i, bool first)
                 break;
             default:
                 (*i)--;
-                if (current == 0)
-                {
-                    current = parseList(str, i,true);
-                    packet->data = current;
-                }
-                else
-                {
                     current->next = parseList(str, i, true);
                     current = current->next;
-                }
-                current->next = 0;
                 break;
         }
     }
@@ -210,8 +180,8 @@ void LispString::setLispString(char * str)
             if (str[0] != '{')
                 i--;
             firstItem = parsePacket(str, &i,true);
-            valid = true;
         }
+        valid = true;
     }
     catch (parse_error & e)
     {

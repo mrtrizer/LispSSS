@@ -2,19 +2,20 @@
 #define FUNCTION_H
 
 #include "lispnode.h"
+#include "value.h"
+#include "message.h"
 
 #include <vector>
 
-typedef std::vector<LispNode> Arguments;
+#define ERROR_MESSAGE(str) throw Message(str,0,0,Message::ERROR);
 
-///@brief I don't like smart pointers.
-class Result
+class Arguments:public std::vector<Value>
 {
 public:
-    Result(LispNode * node):node(node){}
-    ~Result(){delete node;}
-    LispNode * node;
+    static Arguments fromLispNode(LispNode * node);
 };
+
+typedef Value Result;
 
 class Function
 {

@@ -8,7 +8,8 @@
 #include <iostream>
 
 class LispString;
-class Result;
+class Value;
+typedef Value Result;
 
 class LispExecuter
 {

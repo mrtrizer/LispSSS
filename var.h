@@ -2,17 +2,18 @@
 #define VAR_H
 
 #include "lispnode.h"
+#include "value.h"
 
 #include <string>
+#include <map>
 
 class Var
 {
 public:
-    enum VarType {INT, FLOAT, STRING, FUNCTION, OBJECT};
-    Var(const std::string & name, const LispNode & data);
-    Var(){}
+    Var(const std::string & name, Data * data);
+    Var();
     std::string name;
-    LispNode data;
+    Value value;
 };
 
 #endif // VAR_H

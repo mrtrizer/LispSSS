@@ -3,19 +3,115 @@
 
 #include <string>
 
+///@brief Represents data
+class Data
+{
+public:
+    enum DataType {LIST = 1, ATOM = 2, ATOM_STR = 4, ATOM_INT = 8, ATOM_FLOAT = 16, ATOM_T = 32, ATOM_NIL = 64};
+
+    virtual ~Data(){}
+    virtual std::string toString() const = 0;
+    virtual DataType getDataType() const = 0;
+    virtual Data * getClone() const = 0;
+};
+
 ///@brief Один элемент синтаксического дерева.
 class LispNode
 {
 public:
-    enum NodeType {LIST = 0, ATOM = 1, ATOM_STR = 2, ATOM_INT = 3, ATOM_FLOAT = 4, ATOM_T = 5, ATOM_NIL = 6};
-
-    LispNode():data(0),dataType(ATOM_NIL),next(0){}
+    LispNode();
+    LispNode(const LispNode &node);
+    ~LispNode();
     std::string toString();
-    void * data;
-    NodeType dataType;
+    Data * data;
     LispNode * next;
 private:
     std::string toString(LispNode * item, int n);
 };
+
+///@brief Represents list
+class ListData:public Data
+{
+public:
+    ListData(LispNode * node){this->firstNode = node;}
+    ~ListData(){delete firstNode;}
+    std::string toString() const {return firstNode->toString();}
+    LispNode * getRoot() const {return firstNode;}
+    DataType getDataType() const {return LIST;}
+    Data * getClone() const {return new ListData(new LispNode(*firstNode));}
+private:
+    LispNode * firstNode;
+};
+
+///@brief Represents atom
+class AtomData:public Data
+{
+public:
+    AtomData(const std::string & str){this->str = str;}
+    std::string toString() const {return str;}
+    DataType getDataType() const {return ATOM;}
+    Data * getClone() const {return new AtomData(*this);}
+    std::string getName() const {return str;}
+private:
+    std::string str;
+};
+
+///@brief Represents string
+class AtomStrData:public Data
+{
+public:
+    AtomStrData(const std::string & str){this->str = str;}
+    std::string toString() const {return str;}
+    DataType getDataType() const {return ATOM_STR;}
+    Data * getClone() const {return new AtomStrData(*this);}
+    std::string getString() const {return str;}
+private:
+    std::string str;
+};
+
+///@brief Represents integer
+class AtomIntData:public Data
+{
+public:
+    AtomIntData(int num){this->num = num;}
+    std::string toString() const {return std::to_string(num);}
+    DataType getDataType() const {return ATOM_INT;}
+    Data * getClone() const {return new AtomIntData(*this);}
+    int getNum() const {return num;}
+private:
+    int num;
+};
+
+///@brief Represents float
+class AtomFloatData:public Data
+{
+public:
+    AtomFloatData(float num){this->num = num;}
+    std::string toString() const {return std::to_string(num);}
+    DataType getDataType() const {return ATOM_FLOAT;}
+    Data * getClone() const {return new AtomFloatData(*this);}
+    float getNum() const {return num;}
+private:
+    float num;
+};
+
+///@brief Represents true atom
+class AtomTData:public Data
+{
+public:
+    std::string toString() const {return std::string("T");}
+    DataType getDataType() const {return ATOM_T;}
+    Data * getClone() const {return new AtomTData(*this);}
+};
+
+///@brief Represents nil atom
+class AtomNilData:public Data
+{
+public:
+    std::string toString() const {return std::string("nil");}
+    DataType getDataType() const {return ATOM_NIL;}
+    Data * getClone() const {return new AtomNilData(*this);}
+};
+
 
 #endif // LISPNODE_H
