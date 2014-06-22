@@ -7,7 +7,6 @@ class Func_defun : public Function
 {
 public:
     Func_defun();
-    virtual ~Func_defun(){}
 private:
     virtual Result run_(const Arguments & arguments);
 };

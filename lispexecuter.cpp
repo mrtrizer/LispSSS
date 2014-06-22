@@ -7,7 +7,8 @@
 
 #include <assert.h>
 
-LispExecuter::LispExecuter(LispString * lispString, std::ostream * errout,std::ostream * out, std::istream * in)
+LispExecuter::LispExecuter(LispString * lispString, std::ostream * errout,
+                           std::ostream * out, std::istream * in):funcController(this,out,in)
 {
     assert(lispString != 0);
     this->lispString = lispString;
@@ -22,7 +23,7 @@ void LispExecuter::run()
         return;
     try
     {
-        *errout << functionHandler(lispString->getRoot()).getData()->toString();
+        *errout << functionHandler(lispString->getRoot()->data).getData()->toString();
     }
     catch (Message & m)
     {
@@ -30,11 +31,11 @@ void LispExecuter::run()
     }
 }
 
-Result LispExecuter::functionHandler(LispNode * list)
+Result LispExecuter::functionHandler(Data * data)
 {
-    if (list->data->getDataType() == Data::LIST)
+    if (data->getDataType() == Data::LIST)
     {
-        ListData * listData = (ListData *)list->data;
+        ListData * listData = (ListData *)data;
         if (listData->getRoot()->data->getDataType() == Data::ATOM)
         {
             AtomData * firstItem = (AtomData *)listData->getRoot()->data;
@@ -48,7 +49,7 @@ Result LispExecuter::functionHandler(LispNode * list)
                     LispNode * tmp = listData->getRoot()->next;
                     while (tmp != 0)
                     {
-                        arguments.push_back((Value)functionHandler(tmp));
+                        arguments.push_back((Value)functionHandler(tmp->data));
                         tmp = tmp->next;
                     }
                     return func->run(arguments);
@@ -64,5 +65,5 @@ Result LispExecuter::functionHandler(LispNode * list)
             }
         }
     }
-    return Result(list->data->getClone());
+    return Result(data->getClone());
 }

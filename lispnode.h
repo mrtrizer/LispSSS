@@ -13,6 +13,7 @@ public:
     virtual std::string toString() const = 0;
     virtual DataType getDataType() const = 0;
     virtual Data * getClone() const = 0;
+    virtual bool isEqual(const Data * data) const = 0;
 };
 
 ///@brief Один элемент синтаксического дерева.
@@ -39,6 +40,7 @@ public:
     LispNode * getRoot() const {return firstNode;}
     DataType getDataType() const {return LIST;}
     Data * getClone() const {return new ListData(new LispNode(*firstNode));}
+    bool isEqual(const Data * data) const {(void)data; return false;}
 private:
     LispNode * firstNode;
 };
@@ -52,6 +54,12 @@ public:
     DataType getDataType() const {return ATOM;}
     Data * getClone() const {return new AtomData(*this);}
     std::string getName() const {return str;}
+    bool isEqual(const Data * data) const
+    {
+        if (data->getDataType() == ATOM)
+            return ((AtomData *)data)->str == str;
+        return false;
+    }
 private:
     std::string str;
 };
@@ -61,10 +69,16 @@ class AtomStrData:public Data
 {
 public:
     AtomStrData(const std::string & str){this->str = str;}
-    std::string toString() const {return str;}
+    std::string toString() const {return '\"' + str + '\"';}
     DataType getDataType() const {return ATOM_STR;}
     Data * getClone() const {return new AtomStrData(*this);}
     std::string getString() const {return str;}
+    bool isEqual(const Data * data) const
+    {
+        if (data->getDataType() == ATOM_STR)
+            return ((AtomStrData *)data)->str == str;
+        return false;
+    }
 private:
     std::string str;
 };
@@ -77,6 +91,12 @@ public:
     std::string toString() const {return std::to_string(num);}
     DataType getDataType() const {return ATOM_INT;}
     Data * getClone() const {return new AtomIntData(*this);}
+    bool isEqual(const Data * data) const
+    {
+        if (data->getDataType() == ATOM_INT)
+            return ((AtomIntData *)data)->num == num;
+        return false;
+    }
     int getNum() const {return num;}
 private:
     int num;
@@ -90,6 +110,12 @@ public:
     std::string toString() const {return std::to_string(num);}
     DataType getDataType() const {return ATOM_FLOAT;}
     Data * getClone() const {return new AtomFloatData(*this);}
+    bool isEqual(const Data * data) const
+    {
+        if (data->getDataType() == ATOM_FLOAT)
+            return ((AtomFloatData *)data)->num == num;
+        return false;
+    }
     float getNum() const {return num;}
 private:
     float num;
@@ -102,6 +128,12 @@ public:
     std::string toString() const {return std::string("T");}
     DataType getDataType() const {return ATOM_T;}
     Data * getClone() const {return new AtomTData(*this);}
+    bool isEqual(const Data * data) const
+    {
+        if (data->getDataType() == ATOM_T)
+            return true;
+        return false;
+    }
 };
 
 ///@brief Represents nil atom
@@ -111,6 +143,12 @@ public:
     std::string toString() const {return std::string("nil");}
     DataType getDataType() const {return ATOM_NIL;}
     Data * getClone() const {return new AtomNilData(*this);}
+    bool isEqual(const Data * data) const
+    {
+        if (data->getDataType() == ATOM_NIL)
+            return true;
+        return false;
+    }
 };
 
 

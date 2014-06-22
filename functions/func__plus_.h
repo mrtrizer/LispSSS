@@ -7,7 +7,6 @@ class Func__plus_ : public Function
 {
 public:
     Func__plus_();
-    virtual ~Func__plus_(){}
 private:
     virtual Result run_(const Arguments &arguments);
 };

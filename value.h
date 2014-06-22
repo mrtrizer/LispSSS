@@ -7,8 +7,15 @@
 class Value
 {
 public:
-    Value(Data * data);
+    Value(Data * data = 0);
     Value(Value const & value){data = value.data->getClone();}
+    Value & operator=(const Value & value)
+    {
+        if (data)
+            delete data;
+        data = value.data->getClone();
+        return *this;
+    }
     ~Value(){delete data;}
     const Data * getData() const {return data;}
 private:

@@ -30,7 +30,7 @@ LispNode * LispString::parseAtom(char * str, int * i)
         while (str[*i] != '\"')
             (*i)++;
         (*i)++;
-        atom->data = new AtomStrData(std::string(str + iStart,*i - iStart - 1));
+        atom->data = new AtomStrData(std::string(str + iStart + 1,*i - iStart - 2));
     }
     else
     {
@@ -47,7 +47,18 @@ LispNode * LispString::parseAtom(char * str, int * i)
             atom->data = new AtomFloatData(atof(numStr.c_str()));
         }
         else
-            atom->data = new AtomData(std::string(str + iStart,*i - iStart));
+        {
+            std::string name (str + iStart,*i - iStart);
+            if (name == "T")
+                atom->data = new AtomTData();
+            else
+            {
+                if (name == "nil")
+                    atom->data = new AtomNilData();
+                else
+                    atom->data = new AtomData(name);
+            }
+        }
     }
     (*i)--;
     return atom;

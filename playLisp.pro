@@ -30,7 +30,16 @@ SOURCES += main.cpp \
     functions/func_defun.cpp \
     functions/func___global.cpp \
     value.cpp \
-    functions/func__plus_.cpp
+    functions/func__plus_.cpp \
+    functions/func__minus_.cpp \
+    functions/func__mul_.cpp \
+    functions/func__div_.cpp \
+    functions/func_print.cpp \
+    functions/func_if.cpp \
+    functions/func__equ_.cpp \
+    functions/func_while.cpp \
+    functions/func_return.cpp \
+    functions/func_prog.cpp
 
 HEADERS += \
     lispstring.h \
@@ -46,7 +55,16 @@ HEADERS += \
     functions/func_defun.h \
     functions/func___global.h \
     value.h \
-    functions/func__plus_.h
+    functions/func__plus_.h \
+    functions/func__minus_.h \
+    functions/func__mul_.h \
+    functions/func__div_.h \
+    functions/func_print.h \
+    functions/func_if.h \
+    functions/func__equ_.h \
+    functions/func_while.h \
+    functions/func_return.h \
+    functions/func_prog.h
 
 OTHER_FILES += \
     README \

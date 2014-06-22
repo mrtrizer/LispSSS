@@ -7,7 +7,6 @@ class Func___global : public Function
 {
 public:
     Func___global();
-    virtual ~Func___global(){}
 private:
     virtual Result run_(const Arguments & arguments);
 };

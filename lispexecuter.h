@@ -16,6 +16,7 @@ class LispExecuter
 public:
     LispExecuter(LispString * lispString, std::ostream *errout = &std::cout, std::ostream * out = 0, std::istream * in = 0);
     void run();
+    Result functionHandler(Data *data);
 
 private:
     Heap heap;
@@ -25,8 +26,6 @@ private:
     std::ostream * out;
     std::istream * in;
     FuncController funcController;
-
-    Result functionHandler(LispNode * list);
 };
 
 #endif // LISPEXECUTER_H
