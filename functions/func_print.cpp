@@ -10,6 +10,10 @@ Result Func_print::run_(const Arguments &arguments)
     Arguments::const_iterator i;
     if (out)
         for (i = arguments.begin(); i != arguments.end(); i++)
-            *out << i->getData()->toString() << std::endl;
+            if (i->getData()->getDataType() == Data::ATOM_STR)
+                *out << ((AtomStrData *)i->getData())->getString() << ' ';
+            else
+                *out << i->getData()->toString() << ' ';
+    *out << std::endl;
     return Result(new AtomNilData());
 }

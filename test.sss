@@ -1,10 +1,23 @@
-setq a 5;
-setq b 6;
-print (+ a b);
-print (+ 5 5 (+ 5 5));
-setq i 0;
-print (while (!= i 10)
+defun test_fun (a b)
 {
-    setq i (+ i 1);
-    print i;
-});
+        return (+ a b);
+};
+
+defun funfun (a b) (+ a b);
+
+defun main (a)
+{
+        while T
+        {
+                setq n (ask "1.sum\n2.sub\n3.mul\n4.exit\nEnter n:");
+                if (== n 4) (return 1);
+                setq a (ask "Enter a:");
+                setq b (ask "Enter b:");
+                if (== n 1)(setq result (test_fun a b));
+                if (== n 2)(setq result (- a b));
+                if (== n 3)(setq result (* a b));
+                print "Result = " result;
+        };
+};
+
+main 0;

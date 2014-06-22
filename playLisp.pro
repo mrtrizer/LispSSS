@@ -41,7 +41,9 @@ SOURCES += main.cpp \
     functions/func_return.cpp \
     functions/func_prog.cpp \
     functions/func_setq.cpp \
-    functions/func__notequ_.cpp
+    functions/func__notequ_.cpp \
+    lispfunction.cpp \
+    functions/func_ask.cpp
 
 HEADERS += \
     lispstring.h \
@@ -68,7 +70,9 @@ HEADERS += \
     functions/func_return.h \
     functions/func_prog.h \
     functions/func_setq.h \
-    functions/func__notequ_.h
+    functions/func__notequ_.h \
+    lispfunction.h \
+    functions/func_ask.h
 
 OTHER_FILES += \
     README \

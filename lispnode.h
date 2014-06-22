@@ -68,7 +68,19 @@ private:
 class AtomStrData:public Data
 {
 public:
-    AtomStrData(const std::string & str){this->str = str;}
+    AtomStrData(const std::string & str)
+    {
+        for (unsigned int i = 0; i < str.size(); i++)
+        {
+            if ((str[i] == '\\') && (str[i + 1] == 'n'))
+            {
+                this->str += '\n';
+                i++;
+            }
+            else
+                this->str += str[i];
+        }
+    }
     std::string toString() const {return '\"' + str + '\"';}
     DataType getDataType() const {return ATOM_STR;}
     Data * getClone() const {return new AtomStrData(*this);}

@@ -2,7 +2,7 @@
 #include "stack.h"
 #include "lispexecuter.h"
 
-Func_prog::Func_prog(Stack * stack, LispExecuter *executer):Function("prog",FSUBR),stack(stack),executer(executer)
+Func_prog::Func_prog(LispExecuter *executer):Function("prog",FSUBR),executer(executer)
 {
 }
 

@@ -13,12 +13,13 @@
 #include "func_return.h"
 #include "func_prog.h"
 #include "func_setq.h"
+#include "func_ask.h"
 #include "message.h"
 
 FuncController::FuncController(LispExecuter *executer, Stack * stack, std::ostream * out, std::istream * in):
     out(out),in(in),executer(executer),stack(stack)
 {
-    setFunction(new Func_defun());
+    setFunction(new Func_defun(this,stack,executer));
     //setFunction(new Func___global(executer, stack));
     setFunction(new Func__plus_());
     setFunction(new Func__Minus_());
@@ -30,8 +31,9 @@ FuncController::FuncController(LispExecuter *executer, Stack * stack, std::ostre
     setFunction(new Func__NotEqu_());
     setFunction(new Func_while(executer));
     setFunction(new Func_return());
-    setFunction(new Func_prog(stack,executer));
+    setFunction(new Func_prog(executer));
     setFunction(new Func_setq(stack,executer));
+    setFunction(new Func_ask(out,in));
 }
 
 Function * FuncController::getFunction(std::string name)

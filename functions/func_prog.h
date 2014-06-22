@@ -9,10 +9,9 @@ class LispExecuter;
 class Func_prog:public Function
 {
 public:
-    Func_prog(Stack *stack, LispExecuter * executer);
+    Func_prog(LispExecuter * executer);
 private:
     virtual Result run_(const Arguments & arguments);
-    Stack * stack;
     LispExecuter * executer;
 };
 
