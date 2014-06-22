@@ -8,6 +8,17 @@
 #define IS_SPACE(c) ((c == ' ') || (c == '\n') || (c == '\t') || (c != 0))
 #define PARSE_ERROR(s,n) throw parse_error(Message(s,findStrN(n),n,Message::ERROR))
 
+LispString::LispString(char *str):firstItem(0)
+{
+    setLispString(str);
+}
+
+LispString::~LispString()
+{
+    if (firstItem)
+        delete firstItem;
+}
+
 LispNode * LispString::parseAtom(char * str, int * i)
 {
     LispNode * atom = new LispNode;
@@ -133,9 +144,9 @@ LispNode * LispString::parsePacket(char * str, int * i, bool first)
     LispNode * current = 0;
     LispNode * nameAtom = new LispNode();
     if (first)
-        nameAtom->data = (void *)"__function_list";
+        nameAtom->data = (void *)strdup("__global");
     else
-        nameAtom->data = (void *)"prog";
+        nameAtom->data = (void *)strdup("prog");
     nameAtom->dataType = LispNode::ATOM;
     nameAtom->next = 0;
     current = nameAtom;
@@ -219,5 +230,4 @@ QString LispString::toString()
     return QString::fromStdString(firstItem->toString());
 }
 #endif
-
 

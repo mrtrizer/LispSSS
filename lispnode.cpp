@@ -2,6 +2,19 @@
 
 #include <string>
 
+LispNode::LispNode():data(0),dataType(ATOM_NIL),next(0)
+{
+
+}
+
+LispNode::~LispNode()
+{
+    //if (next) //FIXIT
+    //    delete next;
+    //if (data)
+    //    delete data;
+}
+
 std::string LispNode::toString()
 {
     return toString(this,0);

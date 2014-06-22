@@ -7,22 +7,6 @@
 #include <QObject>
 #endif
 
-//Function types
-#define SUBR 0 //Встроенные. Вычисляющие значения агрументов.
-#define FSUBR 1 //Встроенные. Не вычисляющие значения аргументов.
-#define EXPR 2 //Lisp. Вычисляющие значения аргументов.
-#define FEXPR 3 //Lisp. Не вычисляющие значения агрументов.
-#define MACRO 4 //Lisp. Не вычисляющие значения агрументов. Максросы.
-
-//Lexem type
-//#define LIST 0
-//#define ATOM 1
-//#define ATOM_STR 2
-//#define ATOM_INT 3
-//#define ATOM_FLOAT 4
-//#define ATOM_T 5
-//#define ATOM_NIL 6
-
 #include "message.h"
 
 #include <vector>
@@ -44,11 +28,15 @@ public:
     };
 
     ///@brief Конструктор
-    LispString(char *str){setLispString(str);}
+    LispString(char *str);
+    ///@brief Destructor
+    ~LispString();
     ///@brief Возвращает результат парсинга строки.
     bool isValid(){return valid;}
     ///@brief Returns messages
     const std::vector<Message> & getMessages(){return messages;}
+    ///@brief Returns firstItem
+    LispNode * getRoot(){return firstItem;}
 
 #ifdef _QT_
     ///@brief Method returns

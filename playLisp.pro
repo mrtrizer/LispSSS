@@ -13,6 +13,7 @@ CONFIG   += console
 CONFIG   -= app_bundle
 
 TEMPLATE = app
+INCLUDEPATH = ./functions
 
 QMAKE_CXXFLAGS += -std=gnu++11
 
@@ -23,7 +24,11 @@ SOURCES += main.cpp \
     heap.cpp \
     stack.cpp \
     var.cpp \
-    lispnode.cpp
+    lispnode.cpp \
+    funccontroller.cpp \
+    function.cpp \
+    functions/func_defun.cpp \
+    functions/func___global.cpp
 
 HEADERS += \
     lispstring.h \
@@ -33,7 +38,11 @@ HEADERS += \
     heap.h \
     stack.h \
     var.h \
-    lispnode.h
+    lispnode.h \
+    funccontroller.h \
+    function.h \
+    functions/func_defun.h \
+    functions/func___global.h
 
 OTHER_FILES += \
     README \

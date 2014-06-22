@@ -5,7 +5,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+
 #include "lispstring.h"
+#include "lispexecuter.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,15 +19,16 @@ int main(int argc, char *argv[])
     std::string text = ss.str();
     std::cout << text;
     qDebug() << text.size();
-    //scanf("%s\n",&str);
-    //qDebug() << cstr;
-    LispString lispStr(text.c_str());
-    qDebug() << lispStr.toString();
-    std::vector<Message> messages = lispStr.getMessages();
-    std::vector<Message>::iterator i;
-    for (i = messages.begin(); i != messages.end(); i++)
-        qDebug() << QString::fromStdString(i->toString());
-    //printf("%s\n",lispStr.toString().toLatin1().data());
+    {
+        LispString lispStr(text.c_str());
+        qDebug() << lispStr.toString();
+        LispExecuter lispExecuter(&lispStr,&std::cout,&std::cout,&std::cin);
+        lispExecuter.run();
+        std::vector<Message> messages = lispStr.getMessages();
+        std::vector<Message>::iterator i;
+        for (i = messages.begin(); i != messages.end(); i++)
+            qDebug() << QString::fromStdString(i->toString());
+    }
     getchar();
     return 0;
     return a.exec();
