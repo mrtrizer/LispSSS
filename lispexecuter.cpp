@@ -4,11 +4,12 @@
 #include "funccontroller.h"
 #include "lispnode.h"
 #include "function.h"
+#include "stack.h"
 
 #include <assert.h>
 
 LispExecuter::LispExecuter(LispString * lispString, std::ostream * errout,
-                           std::ostream * out, std::istream * in):funcController(this,out,in)
+                           std::ostream * out, std::istream * in):funcController(this,&stack,out,in)
 {
     assert(lispString != 0);
     this->lispString = lispString;
@@ -23,7 +24,9 @@ void LispExecuter::run()
         return;
     try
     {
+        stack.blockPush();
         *errout << functionHandler(lispString->getRoot()->data).getData()->toString();
+        stack.blockPop();
     }
     catch (Message & m)
     {
@@ -31,7 +34,7 @@ void LispExecuter::run()
     }
 }
 
-Result LispExecuter::functionHandler(Data * data)
+Result LispExecuter::functionHandler(const Data * data)
 {
     if (data->getDataType() == Data::LIST)
     {
@@ -65,5 +68,7 @@ Result LispExecuter::functionHandler(Data * data)
             }
         }
     }
+    if (data->getDataType() == Data::ATOM)
+        return (Result)stack.findVar(((AtomData *)data)->getName()).value;
     return Result(data->getClone());
 }

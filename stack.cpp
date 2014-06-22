@@ -20,7 +20,10 @@ void Stack::blockPop()
 void Stack::setVar(Var var)
 {
     assert(var.name.size() > 0);
-    blockStack.top().insert(VarItem(var.name,var));
+    if (blockStack.top().find(var.name) == blockStack.top().end())
+        blockStack.top().insert(VarItem(var.name,var));
+    else
+        blockStack.top()[var.name] = var;
 }
 
 Var Stack::findVar(std::string name)

@@ -10,7 +10,7 @@
 class Var
 {
 public:
-    Var(const std::string & name, Data * data);
+    Var(const std::string & name, Data *data);
     Var();
     std::string name;
     Value value;

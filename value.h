@@ -16,7 +16,7 @@ public:
         data = value.data->getClone();
         return *this;
     }
-    ~Value(){delete data;}
+    ~Value(){if (data) delete data;}
     const Data * getData() const {return data;}
 private:
     Data * data;

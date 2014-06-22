@@ -35,7 +35,7 @@ LispNode * LispString::parseAtom(char * str, int * i)
     else
     {
         //While not lexem end
-        while ((str[*i] != '\t') && (str[*i] != '\n') &&
+        while ((str[*i] != '\t') && (str[*i] != '\n') && (str[*i] != ';') &&
                (str[*i] != ' ') && (str[*i] != ')') && (str[*i] != 0))
             (*i)++;
 
@@ -136,9 +136,9 @@ LispNode * LispString::parsePacket(char * str, int * i, bool first)
 {
     LispNode * packet = new LispNode();
     LispNode * current = new LispNode();
-    if (first)
-        current->data = new AtomData(std::string("__global"));
-    else
+    //if (first)
+    //    current->data = new AtomData(std::string("__global"));
+    //else
         current->data = new AtomData(std::string("prog"));
     packet->data = new ListData(current);
     while (1)

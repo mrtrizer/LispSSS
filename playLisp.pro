@@ -39,7 +39,9 @@ SOURCES += main.cpp \
     functions/func__equ_.cpp \
     functions/func_while.cpp \
     functions/func_return.cpp \
-    functions/func_prog.cpp
+    functions/func_prog.cpp \
+    functions/func_setq.cpp \
+    functions/func__notequ_.cpp
 
 HEADERS += \
     lispstring.h \
@@ -64,7 +66,9 @@ HEADERS += \
     functions/func__equ_.h \
     functions/func_while.h \
     functions/func_return.h \
-    functions/func_prog.h
+    functions/func_prog.h \
+    functions/func_setq.h \
+    functions/func__notequ_.h
 
 OTHER_FILES += \
     README \

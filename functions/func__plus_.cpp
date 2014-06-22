@@ -18,7 +18,7 @@ Result Func__plus_::run_(const Arguments & arguments)
             if (data->getDataType() == Data::ATOM_INT)
                 sum += ((AtomIntData *)data)->getNum();
             else
-                ERROR_MESSAGE("You can use only INT and FLOAT variables with this function");
+                ERROR_MESSAGE("You can use only INT and FLOAT variables with + function");
         }
     }
     return Result(new AtomFloatData(sum));

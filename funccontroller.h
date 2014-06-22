@@ -6,11 +6,12 @@
 
 class Function;
 class LispExecuter;
+class Stack;
 
 class FuncController
 {
 public:
-    FuncController(LispExecuter * executer, std::ostream *out, std::istream *in);
+    FuncController(LispExecuter * executer, Stack *stack, std::ostream *out, std::istream *in);
     ///@brief Adds or Redefines function
     void setFunction(Function *function);
     ///@brief Returns function with name
@@ -22,7 +23,8 @@ private:
     FunctionMap functions;
     std::ostream * out;
     std::istream * in;
-    LispExecuter *executer;
+    LispExecuter * executer;
+    Stack * stack;
 };
 
 #endif // FUNCCONTROLLER_H
