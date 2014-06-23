@@ -18,6 +18,17 @@ Result Func_ask::run_(const Arguments &arguments)
     *in >> str;
     if (((str[0] >= '0') && (str[0] <= '9')) ||
             ((str[0] == '-') && (str[1] >= '0') && (str[1] <= '9')))
-        return Result(new AtomFloatData(atof(str.c_str())));
+    {
+        int pointCount = 0;
+        for (unsigned int i = 0; i < str.size(); i++)
+            if ((str[i] == '.') or (str[i] == ','))
+                pointCount++;
+        if (pointCount > 1)
+             return Result(new AtomStrData(str));
+        if (pointCount == 1)
+            return Result(new AtomFloatData(atof(str.c_str())));
+        else
+            return Result(new AtomIntData(atoi(str.c_str())));
+    }
     return Result(new AtomStrData(str));
 }

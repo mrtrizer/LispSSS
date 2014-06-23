@@ -43,7 +43,10 @@ SOURCES += main.cpp \
     functions/func_setq.cpp \
     functions/func__notequ_.cpp \
     lispfunction.cpp \
-    functions/func_ask.cpp
+    functions/func_ask.cpp \
+    functions/func_quote.cpp \
+    functions/func_car.cpp \
+    functions/func_cdr.cpp
 
 HEADERS += \
     lispstring.h \
@@ -72,9 +75,14 @@ HEADERS += \
     functions/func_setq.h \
     functions/func__notequ_.h \
     lispfunction.h \
-    functions/func_ask.h
+    functions/func_ask.h \
+    functions/func_quote.h \
+    functions/func_car.h \
+    functions/func_cdr.h
 
 OTHER_FILES += \
     README \
     calc_ssslisp.lsp \
-    test.sss
+    test.sss \
+    test_simple.sss \
+    sort.sss

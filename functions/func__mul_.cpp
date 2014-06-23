@@ -12,11 +12,21 @@ Result Func__Mul_::run_(const Arguments & arguments)
     {
         const Data * data = i->getData();
         if (data->getDataType() == Data::ATOM_FLOAT)
-            sum += ((AtomFloatData *)data)->getNum();
+        {
+            if (i == arguments.begin())
+                sum = ((AtomFloatData *)data)->getNum();
+            else
+                sum *= ((AtomFloatData *)data)->getNum();
+        }
         else
         {
             if (data->getDataType() == Data::ATOM_INT)
-                sum += ((AtomIntData *)data)->getNum();
+            {
+                if (i == arguments.begin())
+                    sum = ((AtomIntData *)data)->getNum();
+                else
+                    sum *= ((AtomIntData *)data)->getNum();
+            }
             else
                 ERROR_MESSAGE("You can use only INT and FLOAT variables with this function");
         }

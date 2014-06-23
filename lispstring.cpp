@@ -41,10 +41,19 @@ LispNode * LispString::parseAtom(char * str, int * i)
 
         //Is number
         if (((str[iStart] >= '0') && (str[iStart] <= '9')) ||
-                ((str[iStart] == '-') && (str[iStart] >= '0') && (str[iStart] <= '9')))
+                ((str[iStart] == '-') && (str[iStart + 1] >= '0') && (str[iStart + 1] <= '9')))
         {
             std::string numStr(str + iStart,*i - iStart);
-            atom->data = new AtomFloatData(atof(numStr.c_str()));
+            int pointCount = 0;
+            for (unsigned int i = 0; i < numStr.size(); i++)
+                if ((numStr[i] == '.') or (numStr[i] == ','))
+                    pointCount++;
+            if (pointCount > 1)
+                PARSE_ERROR("Wrong number!",*i);
+            if (pointCount == 1)
+                atom->data = new AtomFloatData(atof(numStr.c_str()));
+            else
+                atom->data = new AtomIntData(atoi(numStr.c_str()));
         }
         else
         {

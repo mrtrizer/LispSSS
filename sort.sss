@@ -1,0 +1,11 @@
+setq list (quote (a b c));
+print  (cdr (cdr (cdr list)));
+
+defun printList (list)
+{
+    if (== list nil)(return "End!");
+    print "Element: " (car list);
+    printList (cdr list);
+};
+
+printList list;

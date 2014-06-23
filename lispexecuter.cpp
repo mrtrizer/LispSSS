@@ -25,7 +25,7 @@ void LispExecuter::run()
     try
     {
         stack.blockPush();
-        *errout << functionHandler(lispString->getRoot()->data).getData()->toString();
+        *errout << "Script out: " << functionHandler(lispString->getRoot()->data).getData()->toString();
         stack.blockPop();
     }
     catch (Message & m)

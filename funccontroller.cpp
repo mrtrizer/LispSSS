@@ -14,6 +14,9 @@
 #include "func_prog.h"
 #include "func_setq.h"
 #include "func_ask.h"
+#include "func_quote.h"
+#include "func_car.h"
+#include "func_cdr.h"
 #include "message.h"
 
 FuncController::FuncController(LispExecuter *executer, Stack * stack, std::ostream * out, std::istream * in):
@@ -34,6 +37,9 @@ FuncController::FuncController(LispExecuter *executer, Stack * stack, std::ostre
     setFunction(new Func_prog(executer));
     setFunction(new Func_setq(stack,executer));
     setFunction(new Func_ask(out,in));
+    setFunction(new Func_quote());
+    setFunction(new Func_car());
+    setFunction(new Func_cdr());
 }
 
 Function * FuncController::getFunction(std::string name)

@@ -21,13 +21,14 @@ class LispNode
 {
 public:
     LispNode();
+    LispNode(Data * data);
     LispNode(const LispNode &node);
     ~LispNode();
     std::string toString();
     Data * data;
     LispNode * next;
 private:
-    std::string toString(LispNode * item, int n);
+    std::string toString(LispNode *item, int n);
 };
 
 ///@brief Represents list
@@ -98,6 +99,7 @@ private:
 ///@brief Represents integer
 class AtomIntData:public Data
 {
+    friend class AtomFloatData;
 public:
     AtomIntData(int num){this->num = num;}
     std::string toString() const {return std::to_string(num);}
@@ -107,6 +109,8 @@ public:
     {
         if (data->getDataType() == ATOM_INT)
             return ((AtomIntData *)data)->num == num;
+        if (data->getDataType() == ATOM_FLOAT)
+            return ((AtomIntData *)data)->num == (float)num;
         return false;
     }
     int getNum() const {return num;}
@@ -117,6 +121,7 @@ private:
 ///@brief Represents float
 class AtomFloatData:public Data
 {
+    friend class AtomIntData;
 public:
     AtomFloatData(float num){this->num = num;}
     std::string toString() const {return std::to_string(num);}
@@ -126,6 +131,8 @@ public:
     {
         if (data->getDataType() == ATOM_FLOAT)
             return ((AtomFloatData *)data)->num == num;
+        if (data->getDataType() == ATOM_INT)
+            return (float)((AtomIntData *)data)->num == num;
         return false;
     }
     float getNum() const {return num;}

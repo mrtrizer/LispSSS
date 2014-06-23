@@ -7,6 +7,11 @@ LispNode::LispNode():data(0),next(0)
 
 }
 
+LispNode::LispNode(Data * data):data(data),next(0)
+{
+
+}
+
 LispNode::~LispNode()
 {
     if (next) //FIXIT
@@ -53,6 +58,10 @@ std::string LispNode::toString(LispNode * item, int n)
         str += ")\n";
     }
     else
+    {
         str = item->data->toString() + '\n';
+        if (item->next != 0)
+            str += item->next->toString() + '\n';
+    }
     return str;
 }

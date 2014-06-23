@@ -10,7 +10,8 @@ Result Func_prog::run_(const Arguments & arguments)
 {
 
     Arguments::const_iterator i;
+    Result result;
     for (i = arguments.begin(); i != arguments.end(); i++)
-        executer->functionHandler(i->getData());
-    return Result(new AtomNilData());
+        result = executer->functionHandler(i->getData());
+    return result;
 }
