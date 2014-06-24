@@ -11,7 +11,7 @@ class Func___global : public Function
 public:
     Func___global(Stack *stack, LispExecuter * executer);
 private:
-    virtual Result run_(const Arguments & arguments);
+    virtual Result run_(const Arguments & arguments) const;
     Stack * stack;
     LispExecuter * executer;
 };

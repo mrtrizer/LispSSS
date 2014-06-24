@@ -8,7 +8,7 @@ class Func_cdr : public Function
 public:
     Func_cdr();
 private:
-    virtual Result run_(const Arguments & arguments);
+    virtual Result run_(const Arguments & arguments) const;
 };
 
 #endif // FUNC_CDR_H

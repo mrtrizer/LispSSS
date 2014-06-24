@@ -8,7 +8,7 @@ class Func__Minus_ : public Function
 public:
     Func__Minus_();
 private:
-    virtual Result run_(const Arguments &arguments);
+    virtual Result run_(const Arguments &arguments) const;
 };
 
 #endif // FUNC__MINUS__H

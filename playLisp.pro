@@ -13,7 +13,7 @@ CONFIG   += console
 CONFIG   -= app_bundle
 
 TEMPLATE = app
-INCLUDEPATH = ./functions
+INCLUDEPATH = ./functions ./data_types
 
 QMAKE_CXXFLAGS += -std=gnu++11
 
@@ -46,7 +46,18 @@ SOURCES += main.cpp \
     functions/func_ask.cpp \
     functions/func_quote.cpp \
     functions/func_car.cpp \
-    functions/func_cdr.cpp
+    functions/func_cdr.cpp \
+    functions/func_func.cpp \
+    memory.cpp \
+    data.cpp \
+    data_types/listdata.cpp \
+    data_types/atomdata.cpp \
+    data_types/funcdata.cpp \
+    data_types/atomintdata.cpp \
+    data_types/atomfloatdata.cpp \
+    data_types/atomstrdata.cpp \
+    data_types/atomtdata.cpp \
+    data_types/atomnildata.cpp
 
 HEADERS += \
     lispstring.h \
@@ -78,11 +89,23 @@ HEADERS += \
     functions/func_ask.h \
     functions/func_quote.h \
     functions/func_car.h \
-    functions/func_cdr.h
+    functions/func_cdr.h \
+    functions/func_func.h \
+    memory.h \
+    data.h \
+    data_types/listdata.h \
+    data_types/atomdata.h \
+    data_types/funcdata.h \
+    data_types/atomintdata.h \
+    data_types/atomfloatdata.h \
+    data_types/atomstrdata.h \
+    data_types/atomtdata.h \
+    data_types/atomnildata.h
 
 OTHER_FILES += \
     README \
     calc_ssslisp.lsp \
     test.sss \
     test_simple.sss \
-    sort.sss
+    sort.sss \
+    func_test.sss

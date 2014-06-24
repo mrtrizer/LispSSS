@@ -1,13 +1,16 @@
 #include "func_defun.h"
 #include "funccontroller.h"
 #include "lispfunction.h"
+#include "listdata.h"
+#include "atomdata.h"
+#include "atomnildata.h"
 
 Func_defun::Func_defun(FuncController * funcController, Stack * stack, LispExecuter * executer):
     Function("defun",FSUBR,3),funcController(funcController),stack(stack),executer(executer)
 {
 }
 
-Result Func_defun::run_(const Arguments & arguments)
+Result Func_defun::run_(const Arguments & arguments) const
 {
     int argCount = 0;
     LispNode * tmp = ((ListData *)arguments[1].getData())->getRoot();

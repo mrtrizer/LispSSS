@@ -1,10 +1,12 @@
 #include "func__minus_.h"
+#include "atomfloatdata.h"
+#include "atomintdata.h"
 
 Func__Minus_::Func__Minus_():Function("-",SUBR,-1,2)
 {
 }
 
-Result Func__Minus_::run_(const Arguments & arguments)
+Result Func__Minus_::run_(const Arguments & arguments) const
 {
     Arguments::const_iterator i;
     float sum;

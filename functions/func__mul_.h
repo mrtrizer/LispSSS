@@ -8,7 +8,7 @@ class Func__Mul_ : public Function
 public:
     Func__Mul_();
 private:
-    virtual Result run_(const Arguments & arguments);
+    virtual Result run_(const Arguments & arguments) const;
 };
 
 #endif // FUNC__MUL__H

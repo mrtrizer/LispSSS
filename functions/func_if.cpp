@@ -1,11 +1,13 @@
 #include "func_if.h"
 #include "lispexecuter.h"
+#include "listdata.h"
+#include "atomnildata.h"
 
 Func_if::Func_if(LispExecuter * executer):Function("if",FSUBR,2),executer(executer)
 {
 }
 
-Result Func_if::run_(const Arguments & arguments)
+Result Func_if::run_(const Arguments & arguments) const
 {
     Result result;
     if (arguments[0].getData()->getDataType() == Data::LIST)

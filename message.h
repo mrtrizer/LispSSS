@@ -17,4 +17,6 @@ private:
     int col;
 };
 
+#define ERROR_MESSAGE(str) throw Message(str,0,0,Message::ERROR);
+
 #endif // MESSAGE_H

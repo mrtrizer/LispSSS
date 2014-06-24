@@ -1,10 +1,12 @@
 #include "func_cdr.h"
+#include "atomnildata.h"
+#include "listdata.h"
 
 Func_cdr::Func_cdr():Function("cdr",SUBR,1)
 {
 }
 
-Result Func_cdr::run_(const Arguments &arguments)
+Result Func_cdr::run_(const Arguments &arguments) const
 {
     if (arguments[0].getData()->getDataType() == Data::LIST)
     {

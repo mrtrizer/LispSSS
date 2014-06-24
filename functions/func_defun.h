@@ -12,7 +12,7 @@ class Func_defun : public Function
 public:
     Func_defun(FuncController *funcController, Stack *stack, LispExecuter *executer);
 private:
-    virtual Result run_(const Arguments & arguments);
+    virtual Result run_(const Arguments & arguments) const;
     FuncController * funcController;
     Stack * stack;
     LispExecuter * executer;

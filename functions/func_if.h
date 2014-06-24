@@ -10,7 +10,7 @@ class Func_if : public Function
 public:
     Func_if(LispExecuter * executer);
 private:
-    virtual Result run_(const Arguments &arguments);
+    virtual Result run_(const Arguments &arguments) const;
     LispExecuter * executer;
 };
 

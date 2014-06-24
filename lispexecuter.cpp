@@ -5,6 +5,9 @@
 #include "lispnode.h"
 #include "function.h"
 #include "stack.h"
+#include "lispfunction.h"
+#include "listdata.h"
+#include "atomdata.h"
 
 #include <assert.h>
 

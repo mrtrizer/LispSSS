@@ -2,6 +2,8 @@
 #include "lispexecuter.h"
 #include "stack.h"
 #include "func_while.h"
+#include "listdata.h"
+#include "atomdata.h"
 
 #include <vector>
 
@@ -14,7 +16,7 @@ LispFunction::LispFunction(std::string name, FunctionType type, int argCount,
     this->text = text;
 }
 
-Result LispFunction::run_(const Arguments &arguments)
+Result LispFunction::run_(const Arguments &arguments) const
 {
     stack->blockPush();
     std::vector <std::string> names;

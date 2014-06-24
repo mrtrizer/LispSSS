@@ -12,7 +12,7 @@ public:
     LispFunction(std::string name, FunctionType type, int argCount,
                  const Data * text, const Data * args, LispExecuter * executer, Stack * stack);
 private:
-    virtual Result run_(const Arguments &arguments);
+    virtual Result run_(const Arguments &arguments) const;
     const Data * args;
     const Data * text;
     LispExecuter * executer;

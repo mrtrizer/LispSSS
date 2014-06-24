@@ -1,10 +1,12 @@
 #include "func__div_.h"
+#include "atomfloatdata.h"
+#include "atomintdata.h"
 
 Func__Div_::Func__Div_():Function("/",SUBR,-1,2)
 {
 }
 
-Result Func__Div_::run_(const Arguments & arguments)
+Result Func__Div_::run_(const Arguments & arguments) const
 {
     Arguments::const_iterator i;
     float sum;

@@ -7,7 +7,7 @@ Function::Function(const std::string &name, FunctionType type, int argCount, int
     this->type = type;
 }
 
-Result Function::run(const Arguments & arguments)
+Result Function::run(const Arguments & arguments) const
 {
     if (argCount > 0)
         if (arguments.size() != (unsigned char)argCount)

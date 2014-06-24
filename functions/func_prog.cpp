@@ -6,7 +6,7 @@ Func_prog::Func_prog(LispExecuter *executer):Function("prog",FSUBR),executer(exe
 {
 }
 
-Result Func_prog::run_(const Arguments & arguments)
+Result Func_prog::run_(const Arguments & arguments) const
 {
 
     Arguments::const_iterator i;

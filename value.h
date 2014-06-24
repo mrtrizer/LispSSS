@@ -1,7 +1,7 @@
 #ifndef VALUE_H
 #define VALUE_H
 
-#include "lispnode.h"
+#include "data.h"
 
 ///@brief I don't like smart pointers.
 class Value

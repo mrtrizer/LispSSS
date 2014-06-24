@@ -18,7 +18,7 @@ public:
     };
     Func_while(LispExecuter * executer);
 private:
-    virtual Result run_(const Arguments &arguments);
+    virtual Result run_(const Arguments &arguments) const;
     LispExecuter * executer;
 };
 

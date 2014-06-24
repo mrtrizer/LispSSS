@@ -17,6 +17,7 @@
 #include "func_quote.h"
 #include "func_car.h"
 #include "func_cdr.h"
+#include "func_func.h"
 #include "message.h"
 
 FuncController::FuncController(LispExecuter *executer, Stack * stack, std::ostream * out, std::istream * in):
@@ -40,6 +41,7 @@ FuncController::FuncController(LispExecuter *executer, Stack * stack, std::ostre
     setFunction(new Func_quote());
     setFunction(new Func_car());
     setFunction(new Func_cdr());
+    setFunction(new Func_func(stack));
 }
 
 Function * FuncController::getFunction(std::string name)

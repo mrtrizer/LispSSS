@@ -11,7 +11,7 @@ class Func_setq : public Function
 public:
     Func_setq(Stack * stack, LispExecuter * executer);
 private:
-    virtual Result run_(const Arguments & arguments);
+    virtual Result run_(const Arguments & arguments) const;
     Stack * stack;
     LispExecuter * executer;
 };

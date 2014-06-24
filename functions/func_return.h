@@ -9,7 +9,7 @@ class Func_return:public Function
 public:
     Func_return();
 private:
-    virtual Result run_(const Arguments & arguments);
+    virtual Result run_(const Arguments & arguments) const;
 };
 
 #endif // FUNC_RETURN_H

@@ -8,7 +8,7 @@ class Func__plus_ : public Function
 public:
     Func__plus_();
 private:
-    virtual Result run_(const Arguments &arguments);
+    virtual Result run_(const Arguments &arguments) const;
 };
 
 #endif // FUNC__PLUS__H

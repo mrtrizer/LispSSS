@@ -1,4 +1,6 @@
 #include "lispnode.h"
+#include "data.h"
+#include "listdata.h"
 
 #include <string>
 
@@ -37,31 +39,34 @@ std::string LispNode::toString()
     return toString(this,0);
 }
 
+std::string LispNode::spaces(int n)
+{
+    std::string str;
+    for (int i = 0; i < n * 3; i++)
+        str += ' ';
+    return str;
+}
+
 std::string LispNode::toString(LispNode * item, int n)
 {
     std::string str;
     if (item->data->getDataType() == Data::LIST)
     {
         LispNode * tmp = ((ListData *)item->data)->getRoot();
+        str += spaces(n);
         str += "(\n";
-        while (tmp != 0)
-        {
-            for (int i = 0; i < n + 1; i++)
-                str += "  ";
-            str += ((char)' ');
-            str += (' ');
-            str += toString(tmp,n + 1);
-            tmp = tmp->next;
-        }
-        for (int i = 0; i < n + 1; i++)
-            str += "  ";
+        str += toString(tmp,n + 1);
+        str += spaces(n);
         str += ")\n";
     }
     else
     {
-        str = item->data->toString() + '\n';
+        str += spaces(n);
+        str += item->data->toString();
         if (item->next != 0)
-            str += item->next->toString() + '\n';
+            str += '\n' + item->next->toString(item->next,n);
+        else
+            str += '\n';
     }
     return str;
 }

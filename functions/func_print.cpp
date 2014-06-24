@@ -1,11 +1,13 @@
 #include "func_print.h"
+#include "atomstrdata.h"
+#include "atomnildata.h"
 
 Func_print::Func_print(std::ostream *out):Function("print",SUBR,-1,1),out(out)
 {
 
 }
 
-Result Func_print::run_(const Arguments &arguments)
+Result Func_print::run_(const Arguments &arguments) const
 {
     Arguments::const_iterator i;
     if (out)

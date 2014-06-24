@@ -6,8 +6,7 @@
 #include "message.h"
 
 #include <vector>
-
-#define ERROR_MESSAGE(str) throw Message(str,0,0,Message::ERROR);
+#include <string>
 
 class Arguments:public std::vector<Value>
 {
@@ -31,7 +30,8 @@ public:
 
     Function(const std::string & name, FunctionType type, int argCount = -1, int minArgCount = 0);
     virtual ~Function(){}
-    Result run(const Arguments &arguments);
+    Result run(const Arguments &arguments) const;
+    std::string toString() const {return "FUNC";}
     ///@brief Argument count. Set -1 when argCount not fixed.
     int argCount;
     ///@brief Min argument count. Used when argCount = -1. Can be 0.
@@ -41,7 +41,7 @@ public:
     ///@brief Function type
     FunctionType type;
 private:
-    virtual Result run_(const Arguments & arguments) = 0;
+    virtual Result run_(const Arguments & arguments) const = 0;
 };
 
 #endif // FUNCTION_H

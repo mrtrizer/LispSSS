@@ -1,6 +1,14 @@
 #include "lispstring.h"
 #include "stdio.h"
 #include "lispnode.h"
+#include "data.h"
+#include "atomstrdata.h"
+#include "atomfloatdata.h"
+#include "atomintdata.h"
+#include "atomtdata.h"
+#include "atomnildata.h"
+#include "atomdata.h"
+#include "listdata.h"
 
 #include <QDebug>
 #include <assert.h>

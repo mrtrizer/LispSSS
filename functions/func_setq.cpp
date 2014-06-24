@@ -1,12 +1,14 @@
 #include "func_setq.h"
 #include "stack.h"
 #include "lispexecuter.h"
+#include "atomdata.h"
+#include "atomnildata.h"
 
 Func_setq::Func_setq(Stack * stack, LispExecuter *executer):Function("setq",FSUBR,2),stack(stack),executer(executer)
 {
 }
 
-Result Func_setq::run_(const Arguments & arguments)
+Result Func_setq::run_(const Arguments & arguments) const
 {
     if (arguments[0].getData()->getDataType() == Data::ATOM)
     {
