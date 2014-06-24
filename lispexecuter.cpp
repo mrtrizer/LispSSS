@@ -27,6 +27,14 @@
 #include "func_return.h"
 #include "func_while.h"
 #include "func_func.h"
+#include "func__and_.h"
+#include "func__or_.h"
+#include "func__not_.h"
+#include "func__greaterequ_.h"
+#include "func__greater_.h"
+#include "func__lessequ_.h"
+#include "func__less_.h"
+#include "func__power_.h"
 
 
 #include <assert.h>
@@ -65,6 +73,15 @@ void LispExecuter::run()
         global.setVar(Var("ask",new FuncData(new Func_ask(out,in),0)));
         global.setVar(Var("print",new FuncData(new Func_print(out),0)));
         global.setVar(Var("func",new FuncData(new Func_func(this),0)));
+        global.setVar(Var("defun",new FuncData(new Func_defun(this),0)));
+        global.setVar(Var("<",new FuncData(new Func__Less_(),0)));
+        global.setVar(Var(">",new FuncData(new Func__Greater_(),0)));
+        global.setVar(Var(">=",new FuncData(new Func__GreaterEqu_(),0)));
+        global.setVar(Var("<=",new FuncData(new Func__LessEqu_(),0)));
+        global.setVar(Var("&&",new FuncData(new Func__And_(),0)));
+        global.setVar(Var("||",new FuncData(new Func__Or_(),0)));
+        global.setVar(Var("!",new FuncData(new Func__Not_(),0)));
+        global.setVar(Var("^",new FuncData(new Func__Power_(),0)));
 
         *errout << "Script out: " << functionHandler(lispString->getRoot()->data,&global).getData()->toString();
     }

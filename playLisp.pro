@@ -55,7 +55,15 @@ SOURCES += main.cpp \
     data_types/atomfloatdata.cpp \
     data_types/atomstrdata.cpp \
     data_types/atomtdata.cpp \
-    data_types/atomnildata.cpp
+    data_types/atomnildata.cpp \
+    functions/func__greater_.cpp \
+    functions/func__less_.cpp \
+    functions/func__greaterequ_.cpp \
+    functions/func__lessequ_.cpp \
+    functions/func__and_.cpp \
+    functions/func__or_.cpp \
+    functions/func__not_.cpp \
+    functions/func__power_.cpp
 
 HEADERS += \
     lispstring.h \
@@ -96,7 +104,15 @@ HEADERS += \
     data_types/atomfloatdata.h \
     data_types/atomstrdata.h \
     data_types/atomtdata.h \
-    data_types/atomnildata.h
+    data_types/atomnildata.h \
+    functions/func__greater_.h \
+    functions/func__less_.h \
+    functions/func__greaterequ_.h \
+    functions/func__lessequ_.h \
+    functions/func__and_.h \
+    functions/func__or_.h \
+    functions/func__not_.h \
+    functions/func__power_.h
 
 OTHER_FILES += \
     README \
@@ -104,4 +120,5 @@ OTHER_FILES += \
     test.sss \
     test_simple.sss \
     sort.sss \
-    func_test.sss
+    func_test.sss \
+    operator_tests.sss

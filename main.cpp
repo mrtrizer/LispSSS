@@ -17,8 +17,9 @@ int main(int argc, char *argv[])
     //std::ifstream ifs("../src/calc_ssslisp.lsp");
     //std::ifstream ifs("../src/sort.sss");
     //std::ifstream ifs("../src/func_test.sss");
-    //std::ifstream ifs("../src/test.sss");
-    std::ifstream ifs("../src/test_simple.sss");
+    std::ifstream ifs("../src/test.sss");
+    //std::ifstream ifs("../src/test_simple.sss");
+    //std::ifstream ifs("../src/operator_tests.sss");
     std::stringstream ss;
     ss << ifs.rdbuf ();
     std::string text = ss.str();

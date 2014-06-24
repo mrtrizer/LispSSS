@@ -169,6 +169,10 @@ LispNode * LispString::parsePacket(char * str, int * i, bool first)
             case ':': break;
             case '}': return packet; break;
             case ' ': break;
+            case '\\':
+                while ((str[*i] != '\n') && str[*i] != 0)
+                    (*i)++;
+                break;
             case '\n': break;
             case '\t': break;
             case 0:
