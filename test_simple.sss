@@ -1,1 +1,15 @@
-+ 6 (* 8 8)
+{
+setq a (
+            func (operand1 ...)
+            {
+                setq a operand1;
+                while (!= nil _args_)
+                {
+                    setq a (- a (car _args_));
+                    setq _args_ (cdr _args_);
+                };
+                return a;
+            }
+       );
+a 5 1 1 1;
+}

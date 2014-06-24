@@ -7,8 +7,9 @@ class Func_quote : public Function
 {
 public:
     Func_quote();
+    std::string getName() const {return "quote";}
 private:
-    virtual Result run_(const Arguments & arguments) const;
+    virtual Result run_(const Arguments & arguments, Memory *stack) const;
 };
 
 #endif // FUNC_QUOTE_H

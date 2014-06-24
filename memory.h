@@ -20,6 +20,8 @@ private:
     ///@brief Each VarItem contains std::string as key and Var as field.
     typedef std::pair<std::string,Var> VarItem;
     Block block;
+    ///@brief Looking for a var with some name and returns pointer.
+    Var *findVarPointer(std::string name);
 };
 
 #endif // MEMORY_H

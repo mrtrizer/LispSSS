@@ -8,8 +8,9 @@ class Func_return:public Function
 {
 public:
     Func_return();
+    std::string getName() const {return "return";}
 private:
-    virtual Result run_(const Arguments & arguments) const;
+    virtual Result run_(const Arguments & arguments, Memory *stack) const;
 };
 
 #endif // FUNC_RETURN_H

@@ -9,8 +9,9 @@ class Func_ask : public Function
 {
 public:
     Func_ask(std::ostream * out = 0, std::istream * in = 0);
+    std::string getName() const {return "ask";}
 private:
-    virtual Result run_(const Arguments & arguments) const;
+    virtual Result run_(const Arguments & arguments, Memory *stack) const;
     std::istream * in;
     std::ostream * out;
 };

@@ -9,8 +9,9 @@ class Func_print : public Function
 {
 public:
     Func_print(std::ostream * out = 0);
+    std::string getName() const {return "print";}
 private:
-    virtual Result run_(const Arguments &arguments) const;
+    virtual Result run_(const Arguments &arguments, Memory *stack) const;
     std::ostream * out;
 };
 

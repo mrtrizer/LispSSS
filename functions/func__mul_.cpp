@@ -2,12 +2,13 @@
 #include "atomfloatdata.h"
 #include "atomintdata.h"
 
-Func__Mul_::Func__Mul_():Function("*",SUBR,-1,2)
+Func__Mul_::Func__Mul_():Function(SUBR,-1,2)
 {
 }
 
-Result Func__Mul_::run_(const Arguments & arguments) const
+Result Func__Mul_::run_(const Arguments & arguments, Memory *stack) const
 {
+    (void) stack;
     Arguments::const_iterator i;
     float sum;
     for (i = arguments.begin(); i != arguments.end(); i++)

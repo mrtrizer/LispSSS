@@ -8,16 +8,17 @@
 
 #include "lispstring.h"
 #include "lispexecuter.h"
+#include "lispnode.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     //std::ifstream ifs("../src/calc.lsp");
     //std::ifstream ifs("../src/calc_ssslisp.lsp");
-    std::ifstream ifs("../src/sort.sss");
+    //std::ifstream ifs("../src/sort.sss");
     //std::ifstream ifs("../src/func_test.sss");
     //std::ifstream ifs("../src/test.sss");
-    //std::ifstream ifs("../src/test_simple.sss");
+    std::ifstream ifs("../src/test_simple.sss");
     std::stringstream ss;
     ss << ifs.rdbuf ();
     std::string text = ss.str();

@@ -3,12 +3,13 @@
 
 #include "function.h"
 
-class Func__plus_ : public Function
+class Func__Plus_ : public Function
 {
 public:
-    Func__plus_();
+    Func__Plus_();
+    std::string getName() const {return "Plus";}
 private:
-    virtual Result run_(const Arguments &arguments) const;
+    virtual Result run_(const Arguments &arguments, Memory *stack) const;
 };
 
 #endif // FUNC__PLUS__H

@@ -9,8 +9,9 @@ class Func_if : public Function
 {
 public:
     Func_if(LispExecuter * executer);
+    std::string getName() const {return "if";}
 private:
-    virtual Result run_(const Arguments &arguments) const;
+    virtual Result run_(const Arguments &arguments, Memory *stack) const;
     LispExecuter * executer;
 };
 

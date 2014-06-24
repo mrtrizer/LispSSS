@@ -9,14 +9,15 @@ class Stack;
 class LispFunction : public Function
 {
 public:
-    LispFunction(std::string name, FunctionType type, int argCount,
-                 const Data * text, const Data * args, LispExecuter * executer, Stack * stack);
+    LispFunction(FunctionType type, int argCount, int minArgCount,
+                 const Data * text, const Data * args, LispExecuter * executer);
 private:
-    virtual Result run_(const Arguments &arguments) const;
+    virtual Result run_(const Arguments &arguments, Memory *stack) const;
     const Data * args;
     const Data * text;
     LispExecuter * executer;
-    Stack * stack;
+    int argCount;
+    int minArgCount;
 };
 
 #endif // LISPFUNCTION_H

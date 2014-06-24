@@ -7,8 +7,9 @@ class Func_cdr : public Function
 {
 public:
     Func_cdr();
+    std::string getName() const {return "cdr";}
 private:
-    virtual Result run_(const Arguments & arguments) const;
+    virtual Result run_(const Arguments & arguments, Memory *stack) const;
 };
 
 #endif // FUNC_CDR_H

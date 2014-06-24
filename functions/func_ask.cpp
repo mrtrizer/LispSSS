@@ -3,12 +3,13 @@
 #include "atomfloatdata.h"
 #include "atomintdata.h"
 
-Func_ask::Func_ask(std::ostream *out, std::istream *in):Function("ask",SUBR,-1),in(in),out(out)
+Func_ask::Func_ask(std::ostream *out, std::istream *in):Function(SUBR,-1),in(in),out(out)
 {
 }
 
-Result Func_ask::run_(const Arguments &arguments) const
+Result Func_ask::run_(const Arguments &arguments, Memory *stack) const
 {
+    (void) stack;
     Arguments::const_iterator i;
     if (out)
         for (i = arguments.begin(); i != arguments.end(); i++)

@@ -2,13 +2,14 @@
 #define LISPEXECUTER_H
 
 #include "heap.h"
-#include "stack.h"
-#include "funccontroller.h"
 
 #include <iostream>
 
 class LispString;
 class Value;
+class Memory;
+class Data;
+
 typedef Value Result;
 
 class LispExecuter
@@ -16,16 +17,14 @@ class LispExecuter
 public:
     LispExecuter(LispString * lispString, std::ostream *errout = &std::cout, std::ostream * out = 0, std::istream * in = 0);
     void run();
-    Result functionHandler(const Data *data);
+    Result functionHandler(const Data *data, Memory *stack);
 
 private:
     Heap heap;
-    Stack stack;
     LispString * lispString;
     std::ostream * errout;
     std::ostream * out;
     std::istream * in;
-    FuncController funcController;
 };
 
 #endif // LISPEXECUTER_H

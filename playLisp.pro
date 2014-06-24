@@ -22,10 +22,8 @@ SOURCES += main.cpp \
     message.cpp \
     lispexecuter.cpp \
     heap.cpp \
-    stack.cpp \
     var.cpp \
     lispnode.cpp \
-    funccontroller.cpp \
     function.cpp \
     functions/func_defun.cpp \
     functions/func___global.cpp \
@@ -65,10 +63,8 @@ HEADERS += \
     message.h \
     lispexecuter.h \
     heap.h \
-    stack.h \
     var.h \
     lispnode.h \
-    funccontroller.h \
     function.h \
     functions/func_defun.h \
     functions/func___global.h \

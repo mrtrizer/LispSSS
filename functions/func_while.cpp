@@ -3,18 +3,18 @@
 #include "listdata.h"
 #include "atomnildata.h"
 
-Func_while::Func_while(LispExecuter * executer):Function("while",FSUBR,2),executer(executer)
+Func_while::Func_while(LispExecuter * executer):Function(FSUBR,2),executer(executer)
 {
 }
 
-Result Func_while::run_(const Arguments &arguments) const
+Result Func_while::run_(const Arguments &arguments, Memory *stack) const
 {
     if (arguments[1].getData()->getDataType() == Data::LIST)
     {
         try
         {
-            while (executer->functionHandler((ListData *)arguments[0].getData()).getData()->getDataType() == Data::ATOM_T)
-                executer->functionHandler((ListData *)arguments[1].getData());
+            while (executer->functionHandler((ListData *)arguments[0].getData(),stack).getData()->getDataType() == Data::ATOM_T)
+                executer->functionHandler((ListData *)arguments[1].getData(),stack);
         }
         catch (return_exception & e)
         {

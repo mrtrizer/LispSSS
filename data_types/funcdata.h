@@ -11,17 +11,17 @@ class Memory;
 class FuncData:public Data
 {
 public:
-    FuncData(const Function &func, Memory * mem);
+    FuncData(Function * func, Memory * mem);
     ~FuncData();
     std::string toString() const;
-    const Function & getFunc() const {return func;}
-    const Memory & getMem() const {return mem;}
+    const Function * getFunc() const {return func;}
+    Memory * getMem() const {return mem;}
     DataType getDataType() const {return FUNC;}
     Data * getClone() const;
     bool isEqual(const Data * data) const {(void)data; return false;}
 private:
-    const Function & func;
-    Memory mem;
+    Function * func;
+    Memory * mem;
 };
 
 #endif // FUNCDATA_H

@@ -17,8 +17,9 @@ public:
         Result result;
     };
     Func_while(LispExecuter * executer);
+    std::string getName() const {return "while";}
 private:
-    virtual Result run_(const Arguments &arguments) const;
+    virtual Result run_(const Arguments &arguments, Memory *stack) const;
     LispExecuter * executer;
 };
 

@@ -1,20 +1,19 @@
 #include "function.h"
 #include "message.h"
 
-Function::Function(const std::string &name, FunctionType type, int argCount, int minArgCount):argCount(argCount),minArgCount(minArgCount)
+Function::Function(FunctionType type, int argCount, int minArgCount):argCount(argCount),minArgCount(minArgCount)
 {
-    this->name = name;
     this->type = type;
 }
 
-Result Function::run(const Arguments & arguments) const
+Result Function::run(const Arguments & arguments, Memory * stack) const
 {
     if (argCount > 0)
         if (arguments.size() != (unsigned char)argCount)
-            ERROR_MESSAGE("Function " + name + " needs " + std::to_string(argCount) + " arguments.");
+            ERROR_MESSAGE("Function " + this->getName() + " needs " + std::to_string(argCount) + " arguments.");
     if (arguments.size() < (unsigned char)minArgCount)
-        ERROR_MESSAGE("Function " + name + " needs not less than " + std::to_string(minArgCount) + " arguments.");
-    return run_(arguments);
+        ERROR_MESSAGE("Function " + this->getName() + " needs not less than " + std::to_string(minArgCount) + " arguments.");
+    return run_(arguments,stack);
 }
 
 Arguments Arguments::fromLispNode(LispNode *node)

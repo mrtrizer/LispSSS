@@ -10,11 +10,10 @@ class LispExecuter;
 class Func_defun : public Function
 {
 public:
-    Func_defun(FuncController *funcController, Stack *stack, LispExecuter *executer);
+    Func_defun(LispExecuter *executer);
+    std::string getName() const {return "defun";}
 private:
-    virtual Result run_(const Arguments & arguments) const;
-    FuncController * funcController;
-    Stack * stack;
+    virtual Result run_(const Arguments & arguments, Memory *stack) const;
     LispExecuter * executer;
 };
 

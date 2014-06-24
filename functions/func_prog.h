@@ -10,8 +10,9 @@ class Func_prog:public Function
 {
 public:
     Func_prog(LispExecuter * executer);
+    std::string getName() const {return "prog";}
 private:
-    virtual Result run_(const Arguments & arguments) const;
+    virtual Result run_(const Arguments & arguments, Memory *stack) const;
     LispExecuter * executer;
 };
 

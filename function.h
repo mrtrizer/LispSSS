@@ -4,6 +4,7 @@
 #include "lispnode.h"
 #include "value.h"
 #include "message.h"
+#include "memory.h"
 
 #include <vector>
 #include <string>
@@ -15,6 +16,8 @@ public:
 };
 
 typedef Value Result;
+
+class Memory;
 
 class Function
 {
@@ -28,20 +31,21 @@ public:
         MACRO = 4 //Lisp. Не вычисляющие значения агрументов. Максросы.
     };
 
-    Function(const std::string & name, FunctionType type, int argCount = -1, int minArgCount = 0);
+    Function(FunctionType type, int argCount = -1, int minArgCount = 0);
     virtual ~Function(){}
-    Result run(const Arguments &arguments) const;
+    Result run(const Arguments &arguments, Memory *stack) const;
+    ///@brief Returns string representing of function
     std::string toString() const {return "FUNC";}
+    ///@brief Returns function name
+    virtual std::string getName() const {return "NO NAME";}
     ///@brief Argument count. Set -1 when argCount not fixed.
     int argCount;
     ///@brief Min argument count. Used when argCount = -1. Can be 0.
     int minArgCount;
-    ///@brief Function name
-    std::string name;
     ///@brief Function type
     FunctionType type;
 private:
-    virtual Result run_(const Arguments & arguments) const = 0;
+    virtual Result run_(const Arguments & arguments, Memory *stack) const = 0;
 };
 
 #endif // FUNCTION_H

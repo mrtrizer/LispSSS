@@ -2,12 +2,13 @@
 #include "atomnildata.h"
 #include "listdata.h"
 
-Func_cdr::Func_cdr():Function("cdr",SUBR,1)
+Func_cdr::Func_cdr():Function(SUBR,1)
 {
 }
 
-Result Func_cdr::run_(const Arguments &arguments) const
+Result Func_cdr::run_(const Arguments &arguments, Memory *stack) const
 {
+    (void) stack;
     if (arguments[0].getData()->getDataType() == Data::LIST)
     {
         ListData * list = (ListData *)arguments[0].getData();
@@ -17,6 +18,6 @@ Result Func_cdr::run_(const Arguments &arguments) const
             return Result(new AtomNilData());
     }
     else
-        ERROR_MESSAGE("Argument must be LIST.");
+        ERROR_MESSAGE("Function cdr. Argument must be LIST.");
     return Result(new AtomNilData());
 }

@@ -3,18 +3,18 @@
 #include "listdata.h"
 #include "atomnildata.h"
 
-Func_if::Func_if(LispExecuter * executer):Function("if",FSUBR,2),executer(executer)
+Func_if::Func_if(LispExecuter * executer):Function(FSUBR,2),executer(executer)
 {
 }
 
-Result Func_if::run_(const Arguments & arguments) const
+Result Func_if::run_(const Arguments & arguments, Memory *stack) const
 {
     Result result;
     if (arguments[0].getData()->getDataType() == Data::LIST)
-        result = executer->functionHandler((ListData *)arguments[0].getData());
+        result = executer->functionHandler((ListData *)arguments[0].getData(),stack);
     else
         result = (Result)arguments[0];
     if (result.getData()->getDataType() == Data::ATOM_T)
-        return executer->functionHandler((ListData *)arguments[1].getData());
+        return executer->functionHandler((ListData *)arguments[1].getData(),stack);
     return Result(new AtomNilData());
 }

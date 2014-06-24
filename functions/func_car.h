@@ -7,8 +7,9 @@ class Func_car : public Function
 {
 public:
     Func_car();
+    std::string getName() const {return "car";}
 private:
-    virtual Result run_(const Arguments & arguments) const;
+    virtual Result run_(const Arguments & arguments, Memory *stack) const;
 };
 
 #endif // FUNC_CAR_H
