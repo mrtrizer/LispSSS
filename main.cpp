@@ -11,6 +11,14 @@
 #include "atomintdata.h"
 #include "atomfloatdata.h"
 #include "memory.h"
+#include "funcdata.h"
+#include "externfunction.h"
+
+unsigned char foo(unsigned int x, float y)
+{
+    unsigned char result = x - y + x;
+    return result;
+}
 
 int main(int argc, char *argv[])
 {
@@ -48,6 +56,7 @@ int main(int argc, char *argv[])
         Memory variables(0);
         double test = 0;
         variables.setVar(Var("test",new AtomFloatData(test)));
+        variables.setVar(Var("foo",new FuncData(new ExternFunction(std::vector<ArgumentName>(),&lispExecuter,(void(*)(void))foo),&variables)));
         lispExecuter.run(&variables);
         test = ((AtomFloatData*)variables.findVar("test").value.getData())->getNum();
         std::cout << std::endl << test << std::endl;

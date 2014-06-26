@@ -13,7 +13,10 @@ CONFIG   += console
 CONFIG   -= app_bundle
 
 TEMPLATE = app
-INCLUDEPATH = ./functions ./data_types
+INCLUDEPATH = ./functions ./data_types ../libs
+
+LIBS += -L../libs/ -lffi
+#LIBS += -lffi
 
 QMAKE_CXXFLAGS += -std=gnu++11
 
@@ -65,7 +68,8 @@ SOURCES += main.cpp \
     functions/func__not_.cpp \
     functions/func__power_.cpp \
     functions/func_continue.cpp \
-    functions/func_exec.cpp
+    functions/func_exec.cpp \
+    externfunction.cpp
 
 HEADERS += \
     lispstring.h \
@@ -116,7 +120,8 @@ HEADERS += \
     functions/func__not_.h \
     functions/func__power_.h \
     functions/func_continue.h \
-    functions/func_exec.h
+    functions/func_exec.h \
+    externfunction.h
 
 OTHER_FILES += \
     README \
