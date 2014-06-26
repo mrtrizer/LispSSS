@@ -45,13 +45,11 @@ Result ExternFunction::run_(const Arguments &arguments, Memory *stack) const
     arg_values[1] = &arg2;
 
     // Invoke the function.
-    //ffi_call(&cif, FFI_FN(foo), &result, arg_values);
     ffi_call(&cif, FFI_FN(func), &result, arg_values);
 
     // The ffi_arg 'result' now contains the unsigned char returned from foo(),
     // which can be accessed by a typecast.
     printf("result is %hhu", (unsigned char)result);
-
 
     return Result(new AtomNilData());
 }
