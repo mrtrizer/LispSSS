@@ -11,8 +11,8 @@ Func__Less_::Func__Less_():Function(SUBR,2)
 Result Func__Less_::run_(const Arguments & arguments, Memory *stack) const
 {
     (void)stack;
-    float operand1;
-    float operand2;
+    double operand1;
+    double operand2;
     if (arguments[0].getData()->getDataType() == Data::ATOM_FLOAT)
         operand1 = ((AtomFloatData *)arguments[0].getData())->getNum();
     else

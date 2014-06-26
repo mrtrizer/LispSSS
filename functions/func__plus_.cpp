@@ -10,7 +10,7 @@ Result Func__Plus_::run_(const Arguments & arguments, Memory *stack) const
 {
     (void)stack;
     Arguments::const_iterator i;
-    float sum;
+    double sum;
     for (i = arguments.begin(); i != arguments.end(); i++)
     {
         const Data * data = i->getData();
@@ -21,7 +21,7 @@ Result Func__Plus_::run_(const Arguments & arguments, Memory *stack) const
             if (data->getDataType() == Data::ATOM_INT)
                 sum += ((AtomIntData *)data)->getNum();
             else
-                ERROR_MESSAGE("You can use only INT and FLOAT variables with + function");
+                ERROR_MESSAGE("You can use only INT and double variables with + function");
         }
     }
     return Result(new AtomFloatData(sum));

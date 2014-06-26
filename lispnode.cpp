@@ -58,6 +58,8 @@ std::string LispNode::toString(LispNode * item, int n)
         str += toString(tmp,n + 1);
         str += spaces(n);
         str += ")\n";
+        if (item->next != 0)
+            str += '\n' + item->next->toString(item->next,n);
     }
     else
     {

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core
+#QT       += core
 
 QT       -= gui
 
@@ -63,7 +63,9 @@ SOURCES += main.cpp \
     functions/func__and_.cpp \
     functions/func__or_.cpp \
     functions/func__not_.cpp \
-    functions/func__power_.cpp
+    functions/func__power_.cpp \
+    functions/func_continue.cpp \
+    functions/func_exec.cpp
 
 HEADERS += \
     lispstring.h \
@@ -112,7 +114,9 @@ HEADERS += \
     functions/func__and_.h \
     functions/func__or_.h \
     functions/func__not_.h \
-    functions/func__power_.h
+    functions/func__power_.h \
+    functions/func_continue.h \
+    functions/func_exec.h
 
 OTHER_FILES += \
     README \

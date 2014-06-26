@@ -2,19 +2,29 @@
 #include "lispexecuter.h"
 #include "listdata.h"
 #include "atomnildata.h"
+#include "atomdata.h"
 
-Func_if::Func_if(LispExecuter * executer):Function(FSUBR,2),executer(executer)
+Func_if::Func_if(LispExecuter * executer):Function(FSUBR,-1,2),executer(executer)
 {
 }
 
 Result Func_if::run_(const Arguments & arguments, Memory *stack) const
 {
     Result result;
-    if (arguments[0].getData()->getDataType() == Data::LIST)
-        result = executer->functionHandler((ListData *)arguments[0].getData(),stack);
-    else
-        result = (Result)arguments[0];
+    if (arguments.size() > 2)
+    {
+        if (arguments.size() != 4)
+            ERROR_MESSAGE("Function " + getName() + " needs 2 or 4 arguments.");
+        if (arguments[2].getData()->getDataType() != Data::ATOM)
+            ERROR_MESSAGE("Function " + getName() + " needs ATOM as 3th argument.");
+        if (((AtomData *)arguments[2].getData())->getName() != "else")
+            ERROR_MESSAGE("Function " + getName() + " needs \"else\" as 3th argument.");
+    }
+    result = executer->functionHandler((ListData *)arguments[0].getData(),stack);
     if (result.getData()->getDataType() == Data::ATOM_T)
-        return executer->functionHandler((ListData *)arguments[1].getData(),stack);
+        return executer->functionHandler(arguments[1].getData(),stack);
+    else
+        if (arguments.size() > 2)
+            return executer->functionHandler(arguments[3].getData(),stack);
     return Result(new AtomNilData());
 }

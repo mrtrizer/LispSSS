@@ -35,6 +35,8 @@
 #include "func__lessequ_.h"
 #include "func__less_.h"
 #include "func__power_.h"
+#include "func_continue.h"
+#include "func_exec.h"
 
 
 #include <assert.h>
@@ -49,13 +51,13 @@ LispExecuter::LispExecuter(LispString * lispString, std::ostream * errout,
     this->errout = errout;
 }
 
-void LispExecuter::run()
+void LispExecuter::run(Memory * stackRoot)
 {
     if (!lispString->isValid())
         return;
     try
     {
-        Memory global(0);
+        Memory global(stackRoot);
         global.setVar(Var("+",new FuncData (new Func__Plus_(),0)));
         global.setVar(Var("-",new FuncData (new Func__Minus_(),0)));
         global.setVar(Var("*",new FuncData (new Func__Mul_(),0)));
@@ -63,8 +65,10 @@ void LispExecuter::run()
         global.setVar(Var("setq",new FuncData (new Func_setq(this),0)));
         global.setVar(Var("prog",new FuncData(new Func_prog(this),0)));
         global.setVar(Var("quote",new FuncData(new Func_quote(),0)));
+        global.setVar(Var("exec",new FuncData(new Func_exec(this),0)));
         global.setVar(Var("while",new FuncData(new Func_while(this),0)));
         global.setVar(Var("return",new FuncData(new Func_return(),0)));
+        global.setVar(Var("continue",new FuncData(new Func_continue(),0)));
         global.setVar(Var("if",new FuncData(new Func_if(this),0)));
         global.setVar(Var("==",new FuncData(new Func__Equ_(),0)));
         global.setVar(Var("!=",new FuncData(new Func__NotEqu_(),0)));
@@ -83,7 +87,7 @@ void LispExecuter::run()
         global.setVar(Var("!",new FuncData(new Func__Not_(),0)));
         global.setVar(Var("^",new FuncData(new Func__Power_(),0)));
 
-        *errout << "Script out: " << functionHandler(lispString->getRoot()->data,&global).getData()->toString();
+        *errout << "Script out: " << functionHandler(lispString->getRoot()->data,&global).getData()->toString() << std::endl;
     }
     catch (Message & m)
     {

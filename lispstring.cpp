@@ -89,8 +89,8 @@ LispNode * LispString::parseList(char * str, int * i, bool noFrame)
     while (1)
     {
         (*i)++;
-        if (*i > 1000) //FOR DEBUG
-            PARSE_ERROR("Prog length must be < 1000 ", *i);
+//        if (*i > 1000) //FOR DEBUG
+//            PARSE_ERROR("Prog length must be < 1000 ", *i);
         switch (str[*i])
         {
             case '(':
@@ -161,15 +161,15 @@ LispNode * LispString::parsePacket(char * str, int * i, bool first)
     while (1)
     {
         (*i)++;
-        if (*i > 1000) //FOR DEBUG
-            PARSE_ERROR("Prog length must be < 1000", *i);
+//        if (*i > 1000) //FOR DEBUG
+//            PARSE_ERROR("Prog length must be < 1000", *i);
         switch (str[*i])
         {
             case ';': break;
             case ':': break;
             case '}': return packet; break;
             case ' ': break;
-            case '\\':
+            case '#':
                 while ((str[*i] != '\n') && str[*i] != 0)
                     (*i)++;
                 break;

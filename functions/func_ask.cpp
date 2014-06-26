@@ -14,12 +14,12 @@ Result Func_ask::run_(const Arguments &arguments, Memory *stack) const
     if (out)
         for (i = arguments.begin(); i != arguments.end(); i++)
             if (i->getData()->getDataType() == Data::ATOM_STR)
-                *out << ((AtomStrData *)i->getData())->getString() << ' ';
+                *out << ((AtomStrData *)i->getData())->getString();
             else
-                *out << i->getData()->toString() << ' ';
-    *out << std::endl;
+                *out << i->getData()->toString();
     std::string str;
     *in >> str;
+    *out << std::endl;
     if (((str[0] >= '0') && (str[0] <= '9')) ||
             ((str[0] == '-') && (str[1] >= '0') && (str[1] <= '9')))
     {

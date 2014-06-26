@@ -16,6 +16,7 @@ public:
     private:
         Result result;
     };
+    class continue_exception{};
     Func_while(LispExecuter * executer);
     std::string getName() const {return "while";}
 private:
