@@ -1,67 +1,203 @@
 #include "externfunction.h"
 #include "atomnildata.h"
+#include "atomfloatdata.h"
+#include "atomintdata.h"
+#include "atomstrdata.h"
 #include "ffi.h"
+#include <inttypes.h>
 
-ExternFunction::ExternFunction(std::vector<ArgumentName> args, LispExecuter * executer, void(*func)(void)):Function(SUBR,args.size())
+#include <string>
+
+ExternFunction::ExternFunction(std::vector<ArgumentName> argNames, LispExecuter * executer,
+                               void(*func)(void), ffi_type * returnType):Function(SUBR,argNames.size())
 {
     this->executer = executer;
-    this->args = args;
+    this->argNames = argNames;
     this->func = func;
+    this->returnType = returnType;
 }
 
-extern "C"
+Data::DataType ExternFunction::toLispType(ffi_type * type) const
 {
-unsigned char
-foo(unsigned int, float);
+    if ((type == &ffi_type_float) ||
+        (type == &ffi_type_double))
+        return Data::ATOM_FLOAT;
+    if ((type == &ffi_type_sint8) ||
+        (type == &ffi_type_sint16)||
+        (type == &ffi_type_sint32)||
+        (type == &ffi_type_sint64)||
+        (type == &ffi_type_uint8) ||
+        (type == &ffi_type_uint16)||
+        (type == &ffi_type_uint32)||
+        (type == &ffi_type_uint64))
+        return Data::ATOM_INT;
+    if ((type == &ffi_type_pointer))
+        return Data::ATOM_STR;
+    ERROR_MESSAGE("Unknown type");
+}
+
+void ExternFunction::convertToCType(const Data * lispData, ffi_type * targetCType,char * cData) const
+{
+    if (lispData->getDataType() == Data::ATOM_FLOAT)
+    {
+        AtomFloatData * lispFloat = (AtomFloatData *)lispData;
+        if (targetCType == &ffi_type_float)
+        {
+            *((float *)cData) = (float)lispFloat->getNum();
+            return;
+        }
+        if (targetCType == &ffi_type_double)
+        {
+            *((double *)cData) = (double)lispFloat->getNum();
+            return;
+        }
+    }
+    if (lispData->getDataType() == Data::ATOM_INT)
+    {
+        AtomIntData * lispInt = (AtomIntData *)lispData;
+        if (targetCType == &ffi_type_sint8)
+        {
+            *((int8_t *)cData) = (int8_t)lispInt->getNum();
+            return;
+        }
+        if (targetCType == &ffi_type_sint16)
+        {
+            *((int16_t *)cData) = (int16_t)lispInt->getNum();
+            return;
+        }
+        if (targetCType == &ffi_type_sint32)
+        {
+            *((int32_t *)cData) = (int32_t)lispInt->getNum();
+            return;
+        }
+        if (targetCType == &ffi_type_sint64)
+        {
+            *((int64_t *)cData) = (int64_t)lispInt->getNum();
+            return;
+        }
+        if (targetCType == &ffi_type_uint8)
+        {
+            *((uint8_t *)cData) = (uint8_t)lispInt->getNum();
+            return;
+        }
+        if (targetCType == &ffi_type_uint16)
+        {
+            *((uint16_t *)cData) = (uint16_t)lispInt->getNum();
+            return;
+        }
+        if (targetCType == &ffi_type_uint32)
+        {
+            *((uint32_t *)cData) = (uint32_t)lispInt->getNum();
+            return;
+        }
+        if (targetCType == &ffi_type_uint64)
+        {
+            *((uint64_t *)cData) = (uint64_t)lispInt->getNum();
+            return;
+        }
+    }
+    if (lispData->getDataType() == Data::ATOM_STR)
+        if (targetCType == &ffi_type_pointer)
+        {
+            memccpy(cData,((AtomStrData *)lispData)->getString().c_str(),0,((AtomStrData *)lispData)->getString().size());
+            return;
+        }
+    delete []cData;
+    ERROR_MESSAGE("Argumet typecasting error.");
+}
+
+Data * ExternFunction::convertToLispType(ffi_type * sourceCType, char * cData) const
+{
+    Data::DataType dataType = toLispType(sourceCType);
+    if (dataType == Data::ATOM_FLOAT)
+    {
+        if (sourceCType == &ffi_type_float)
+            return new AtomFloatData((double)*((float *)cData));
+        if (sourceCType == &ffi_type_double)
+            return new AtomFloatData((double)*((double *)cData));
+    }
+    if (dataType == Data::ATOM_INT)
+    {
+        if (sourceCType == &ffi_type_sint8)
+            return new AtomIntData((int)*((int8_t *)cData));
+        if (sourceCType == &ffi_type_sint16)
+            return new AtomIntData((int)*((int16_t *)cData));
+        if (sourceCType == &ffi_type_sint32)
+            return new AtomIntData((int)*((int32_t *)cData));
+        if (sourceCType == &ffi_type_sint64)
+            return new AtomIntData((int)*((int64_t *)cData));
+        if (sourceCType == &ffi_type_uint8)
+            return new AtomIntData((int)*((uint8_t *)cData));
+        if (sourceCType == &ffi_type_uint16)
+            return new AtomIntData((int)*((uint16_t *)cData));
+        if (sourceCType == &ffi_type_uint32)
+            return new AtomIntData((int)*((uint32_t *)cData));
+        if (sourceCType == &ffi_type_uint64)
+            return new AtomIntData((int)*((uint64_t *)cData));
+    }
+    if (dataType == Data::ATOM_STR)
+        if (sourceCType == &ffi_type_pointer)
+        {
+            AtomStrData * result = new AtomStrData(std::string(*((char **)cData)));
+            //Deleting string
+            delete []*((char **)cData);
+            return result;
+        }
+    ERROR_MESSAGE("Return typecasting error.");
+    return 0;
 }
 
 Result ExternFunction::run_(const Arguments &arguments, Memory *stack) const
 {
+    (void) stack;
+
     ffi_cif cif;
-    ffi_type *arg_types[2];
-    void *arg_values[2];
+    ffi_type *arg_types[argNames.size()];
+    char *arg_values[argNames.size()];
     ffi_status status;
+    Result result;
 
-    // Because the return value from foo() is smaller than sizeof(long), it
-    // must be passed as ffi_arg or ffi_sarg.
-    ffi_arg result;
+    if (arguments.size() != argNames.size())
+        ERROR_MESSAGE("Extern function needs " + std::to_string(argNames.size()) + " arguments!");
 
-    // Specify the data type of each argument. Available types are defined
-    // in <ffi/ffi.h>.
-    arg_types[0] = &ffi_type_uint;
-    arg_types[1] = &ffi_type_float;
+    for (unsigned int i = 0; i < argNames.size();i++)
+        arg_values[i] = new char[arguments[i].getData()->getSize()];
 
-    // Prepare the ffi_cif structure.
-    if ((status = ffi_prep_cif(&cif, FFI_DEFAULT_ABI, 2, &ffi_type_uint8, arg_types)) != FFI_OK)
+    try
     {
-        ERROR_MESSAGE("FFI error. Status: " + std::to_string(status));
+        for (unsigned int i = 0; i < argNames.size(); i++)
+        {
+            if (arguments[i].getData()->getDataType() == toLispType(argNames[i].getType()))
+            {
+                arg_types[i] = argNames[i].getType();
+                convertToCType(arguments[i].getData(),argNames[i].getType(),arg_values[i]);
+            }
+            else
+                ERROR_MESSAGE("Type error");
+        }
+
+        // Prepare the ffi_cif structure.
+        if ((status = ffi_prep_cif(&cif, FFI_DEFAULT_ABI, 2, returnType, arg_types)) != FFI_OK)
+            ERROR_MESSAGE("FFI error. Status: " + std::to_string(status));
+
+    }
+    catch (Message & e)
+    {
+        //Deleting arguments
+        for (unsigned int i = 0; i < argNames.size(); i++)
+            delete [] arg_values[i];
+        throw e;
     }
 
-    // Specify the values of each argument.
-    unsigned int arg1 = 42;
-    float arg2 = 5.1;
-
-    arg_values[0] = &arg1;
-    arg_values[1] = &arg2;
+    char callResult[10];
 
     // Invoke the function.
-    ffi_call(&cif, FFI_FN(func), &result, arg_values);
+    ffi_call(&cif, FFI_FN(func), (void*)callResult, (void**)arg_values);
 
-    // The ffi_arg 'result' now contains the unsigned char returned from foo(),
-    // which can be accessed by a typecast.
-    printf("result is %hhu", (unsigned char)result);
+    result = Result(convertToLispType(returnType,(char*)callResult));
 
-    return Result(new AtomNilData());
-}
+    for (unsigned int i = 0; i < argNames.size(); i++)
+        delete [] arg_values[i];
 
-extern "C"
-{
-// The target function.
-unsigned char
-foo(unsigned int x, float y)
-{
-    unsigned char result = x - y;
     return result;
-}
-
 }

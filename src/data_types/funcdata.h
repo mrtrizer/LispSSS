@@ -19,6 +19,7 @@ public:
     DataType getDataType() const {return FUNC;}
     Data * getClone() const;
     bool isEqual(const Data * data) const {(void)data; return false;}
+    virtual unsigned int getSize() const {return sizeof(func);}
 private:
     Function * func;
     Memory * mem;

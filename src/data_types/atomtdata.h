@@ -16,6 +16,7 @@ public:
             return true;
         return false;
     }
+    virtual unsigned int getSize() const {return sizeof(bool);}
 };
 
 #endif // ATOMTDATA_H

@@ -31,6 +31,7 @@ public:
             return ((AtomStrData *)data)->str == str;
         return false;
     }
+    virtual unsigned int getSize() const {return str.size();}
 private:
     std::string str;
 };

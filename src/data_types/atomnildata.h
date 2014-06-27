@@ -9,6 +9,7 @@ class AtomNilData:public Data
 public:
     std::string toString() const {return std::string("nil");}
     DataType getDataType() const {return ATOM_NIL;}
+    virtual unsigned int getSize() const {return sizeof(bool);}
     Data * getClone() const {return new AtomNilData(*this);}
     bool isEqual(const Data * data) const
     {

@@ -14,10 +14,12 @@
 #include "funcdata.h"
 #include "externfunction.h"
 
-unsigned char foo(unsigned int x, float y)
+char * foo(unsigned int x, float y)
 {
-    unsigned char result = x - y + x;
-    return result;
+    (void)x;
+    (void)y;
+    printf ("THIS IS HAIFA!\n");
+    return strdup("THIS IS SPARTA!");
 }
 
 int main(int argc, char *argv[])
@@ -56,8 +58,14 @@ int main(int argc, char *argv[])
         Memory variables(0);
         double test = 0;
         variables.setVar(Var("test",new AtomFloatData(test)));
-        variables.setVar(Var("foo",new FuncData(new ExternFunction(std::vector<ArgumentName>(),&lispExecuter,(void(*)(void))foo),&variables)));
+        //Extern function adding
+        std::vector<ArgumentName> argumentNames;
+        argumentNames.push_back(ArgumentName("a",&ffi_type_uint));
+        argumentNames.push_back(ArgumentName("b",&ffi_type_float));
+        variables.setVar(Var("foo",new FuncData(new ExternFunction(argumentNames,&lispExecuter,(void(*)(void))foo,&ffi_type_pointer),&variables)));
+        //Runing
         lispExecuter.run(&variables);
+
         test = ((AtomFloatData*)variables.findVar("test").value.getData())->getNum();
         std::cout << std::endl << test << std::endl;
     }

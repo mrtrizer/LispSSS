@@ -12,6 +12,8 @@ public:
     DataType getDataType() const {return ATOM;}
     Data * getClone() const {return new AtomData(*this);}
     std::string getName() const {return str;}
+    ///@brief Returns data size.
+    virtual unsigned int getSize() const {return 0;}
     bool isEqual(const Data * data) const
     {
         if (data->getDataType() == ATOM)

@@ -19,6 +19,8 @@ public:
     virtual Data * getClone() const = 0;
     ///@brief Returns true if this object equals another.
     virtual bool isEqual(const Data * data) const = 0;
+    ///@brief Returns data size.
+    virtual unsigned int getSize() const  = 0;
 };
 
 #endif // DATA_H

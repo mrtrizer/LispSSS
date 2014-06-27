@@ -15,6 +15,7 @@ public:
     DataType getDataType() const {return LIST;}
     Data * getClone() const {return new ListData(new LispNode(*firstNode));}
     bool isEqual(const Data * data) const {(void)data; return false;}
+    virtual unsigned int getSize() const {return 0;}
 private:
     LispNode * firstNode;
 };

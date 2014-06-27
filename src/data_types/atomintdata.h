@@ -9,6 +9,7 @@ class AtomIntData:public Data
     friend class AtomFloatData;
 public:
     AtomIntData(int num){this->num = num;}
+    virtual unsigned int getSize() const {return sizeof(num);}
     std::string toString() const {return std::to_string(num);}
     DataType getDataType() const {return ATOM_INT;}
     Data * getClone() const {return new AtomIntData(*this);}
