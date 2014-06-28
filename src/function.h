@@ -48,4 +48,10 @@ private:
     virtual Result run_(const Arguments & arguments, Memory *stack) const = 0;
 };
 
+#define TEST_ARG(n,type) \
+{\
+    if (!(arguments[n].getData()->getDataType() & (type))) \
+        ERROR_MESSAGE ("The function " + getName() + " needs "#type"as "#n"th argument.");\
+}
+
 #endif // FUNCTION_H

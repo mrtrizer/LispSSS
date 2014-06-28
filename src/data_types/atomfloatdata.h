@@ -10,7 +10,7 @@ class AtomFloatData:public Data
 public:
     AtomFloatData(double num){this->num = num;}
     virtual unsigned int getSize() const {return sizeof(num);}
-    std::string toString() const {return std::to_string(num);}
+    std::string toString() const;
     DataType getDataType() const {return ATOM_FLOAT;}
     Data * getClone() const {return new AtomFloatData(*this);}
     bool isEqual(const Data * data) const;

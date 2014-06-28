@@ -15,9 +15,9 @@ Result Func_print::run_(const Arguments &arguments, Memory *stack) const
     {
         for (i = arguments.begin(); i != arguments.end(); i++)
             if (i->getData()->getDataType() == Data::ATOM_STR)
-                *out << ((AtomStrData *)i->getData())->getString() << ' ';
+                *out << ((AtomStrData *)i->getData())->getString();
             else
-                *out << i->getData()->toString() << ' ';
+                *out << i->getData()->toString();
         *out << std::endl;
     }
     return Result(new AtomNilData());

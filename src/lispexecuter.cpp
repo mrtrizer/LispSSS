@@ -37,6 +37,7 @@
 #include "func__power_.h"
 #include "func_continue.h"
 #include "func_exec.h"
+#include "func_parse.h"
 
 
 #include <assert.h>
@@ -78,6 +79,7 @@ void LispExecuter::run(Memory * stackRoot)
         global.setVar(Var("print",new FuncData(new Func_print(out),0)));
         global.setVar(Var("func",new FuncData(new Func_func(this),0)));
         global.setVar(Var("defun",new FuncData(new Func_defun(this),0)));
+        global.setVar(Var("parse", new FuncData(new Func_parse(),0)));
         global.setVar(Var("<",new FuncData(new Func__Less_(),0)));
         global.setVar(Var(">",new FuncData(new Func__Greater_(),0)));
         global.setVar(Var(">=",new FuncData(new Func__GreaterEqu_(),0)));
@@ -87,7 +89,9 @@ void LispExecuter::run(Memory * stackRoot)
         global.setVar(Var("!",new FuncData(new Func__Not_(),0)));
         global.setVar(Var("^",new FuncData(new Func__Power_(),0)));
 
-        *errout << "Script out: " << functionHandler(lispString->getRoot()->data,&global).getData()->toString() << std::endl;
+        Result result = functionHandler(lispString->getRoot()->data,&global);
+        if (result.getData()->getDataType() != Data::ATOM_NIL)
+            *errout << result.getData()->toString() << std::endl;
     }
     catch (Message & m)
     {

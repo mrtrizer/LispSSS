@@ -65,9 +65,6 @@ int main(int argc, char *argv[])
         variables.setVar(Var("foo",new FuncData(new ExternFunction(argumentNames,&lispExecuter,(void(*)(void))foo,&ffi_type_pointer),&variables)));
         //Runing
         lispExecuter.run(&variables);
-
-        test = ((AtomFloatData*)variables.findVar("test").value.getData())->getNum();
-        std::cout << std::endl << test << std::endl;
     }
     getchar();
     return 0;

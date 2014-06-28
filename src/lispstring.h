@@ -62,7 +62,7 @@ private:
     ///@brief Parse packet
     LispNode * parsePacket(char * str, int * i, bool first = false);
     ///@brief Search str number. It is need for debug.
-    int findStrN(int n);
+    int findLineN(int n);
     ///@brief Starts parsing
     void setLispString(char *str);
 };

@@ -69,7 +69,8 @@ SOURCES += main.cpp \
     functions/func__power_.cpp \
     functions/func_continue.cpp \
     functions/func_exec.cpp \
-    externfunction.cpp
+    externfunction.cpp \
+    functions/func_parse.cpp
 
 HEADERS += \
     lispstring.h \
@@ -121,7 +122,8 @@ HEADERS += \
     functions/func__power_.h \
     functions/func_continue.h \
     functions/func_exec.h \
-    externfunction.h
+    externfunction.h \
+    functions/func_parse.h
 
 OTHER_FILES += \
     README \
@@ -130,4 +132,5 @@ OTHER_FILES += \
     test_simple.sss \
     sort.sss \
     func_test.sss \
-    operator_tests.sss
+    operator_tests.sss \
+    parse_test.sss

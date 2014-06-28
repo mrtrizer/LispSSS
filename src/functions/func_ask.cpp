@@ -17,8 +17,9 @@ Result Func_ask::run_(const Arguments &arguments, Memory *stack) const
                 *out << ((AtomStrData *)i->getData())->getString();
             else
                 *out << i->getData()->toString();
-    std::string str;
-    *in >> str;
+    char buff[1000];
+    in->getline(buff,1000);
+    std::string str(buff);
     *out << std::endl;
     if (((str[0] >= '0') && (str[0] <= '9')) ||
             ((str[0] == '-') && (str[1] >= '0') && (str[1] <= '9')))

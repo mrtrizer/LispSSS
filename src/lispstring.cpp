@@ -14,7 +14,7 @@
 #include <assert.h>
 
 #define IS_SPACE(c) ((c == ' ') || (c == '\n') || (c == '\t') || (c != 0))
-#define PARSE_ERROR(s,n) throw parse_error(Message(s,findStrN(n),n,Message::ERROR))
+#define PARSE_ERROR(s,n) throw parse_error(Message(s,findLineN(n),n,Message::ERROR))
 
 LispString::LispString(char *str):firstItem(0)
 {
@@ -44,7 +44,7 @@ LispNode * LispString::parseAtom(char * str, int * i)
     {
         //While not lexem end
         while ((str[*i] != '\t') && (str[*i] != '\n') && (str[*i] != ';') &&
-               (str[*i] != ' ') && (str[*i] != ')') && (str[*i] != 0))
+               (str[*i] != ' ') && (str[*i] != ')') && (str[*i] != '(') && (str[*i] != 0))
             (*i)++;
 
         //Is number
@@ -190,7 +190,7 @@ LispNode * LispString::parsePacket(char * str, int * i, bool first)
     }
 }
 
-int LispString::findStrN(int n)
+int LispString::findLineN(int n)
 {
     int count = 0;
     for (int i = 0; i < n; i++)
