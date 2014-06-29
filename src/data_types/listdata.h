@@ -13,7 +13,13 @@ public:
     std::string toString() const {return firstNode->toString();}
     LispNode * getRoot() const {return firstNode;}
     DataType getDataType() const {return LIST;}
-    Data * getClone() const {return new ListData(new LispNode(*firstNode));}
+    Data * getClone() const
+    {
+        if (firstNode != 0)
+            return new ListData(new LispNode(*firstNode));
+        else
+            return new ListData(0);
+    }
     bool isEqual(const Data * data) const {(void)data; return false;}
     virtual unsigned int getSize() const {return 0;}
 private:

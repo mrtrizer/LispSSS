@@ -23,7 +23,6 @@ public:
 private:
     std::string spaces(int n);
     std::string toString(LispNode *item, int n);
-    int line;
     Pos pos;
 };
 

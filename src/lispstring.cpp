@@ -147,7 +147,7 @@ LispNode * LispString::parseList(char * str, int * i, bool noFrame)
                 break;
         }
     }
-    EXIT: //I used goto because we need create list before return.
+    EXIT:
     list->data = new ListData(firstNode);
     return list;
 }
