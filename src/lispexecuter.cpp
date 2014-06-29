@@ -95,6 +95,7 @@ void LispExecuter::run(Memory * stackRoot)
     }
     catch (Message & m)
     {
+        m.setPos(curPos);
         *errout << m.toString();
     }
 }
@@ -106,6 +107,7 @@ Result LispExecuter::functionHandler(const Data * data, Memory * stack)
         ListData * listData = (ListData *)data;
         if (listData->getRoot()->data->getDataType() & (Data::ATOM | Data::LIST))
         {
+            curPos = listData->getRoot()->getPos();
             Result funcId = functionHandler(listData->getRoot()->data,stack);
             if (funcId.getData()->getDataType() == Data::FUNC)
             {
@@ -120,6 +122,7 @@ Result LispExecuter::functionHandler(const Data * data, Memory * stack)
                         LispNode * tmp = listData->getRoot()->next;
                         while (tmp != 0)
                         {
+                            curPos = tmp->getPos();
                             arguments.push_back((Value)functionHandler(tmp->data,stack));
                             tmp = tmp->next;
                         }
@@ -131,7 +134,6 @@ Result LispExecuter::functionHandler(const Data * data, Memory * stack)
                     case Function::FSUBR:
                     {
                         arguments = Arguments::fromLispNode(listData->getRoot()->next);
-
                         break;
                     }
                 }

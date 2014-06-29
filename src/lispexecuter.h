@@ -2,6 +2,7 @@
 #define LISPEXECUTER_H
 
 #include "heap.h"
+#include "pos.h"
 
 #include <iostream>
 
@@ -25,6 +26,7 @@ private:
     std::ostream * errout;
     std::ostream * out;
     std::istream * in;
+    Pos curPos;
 };
 
 #endif // LISPEXECUTER_H

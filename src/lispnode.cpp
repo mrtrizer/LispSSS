@@ -4,16 +4,6 @@
 
 #include <string>
 
-LispNode::LispNode():data(0),next(0)
-{
-
-}
-
-LispNode::LispNode(Data * data):data(data),next(0)
-{
-
-}
-
 LispNode::~LispNode()
 {
     if (next) //FIXIT
@@ -32,6 +22,7 @@ LispNode::LispNode(LispNode const & node)
         this->next = new LispNode(*node.next);
     else
         this->next = 0;
+    this->pos = node.pos;
 }
 
 std::string LispNode::toString()

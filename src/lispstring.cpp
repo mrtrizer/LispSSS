@@ -14,7 +14,7 @@
 #include <assert.h>
 
 #define IS_SPACE(c) ((c == ' ') || (c == '\n') || (c == '\t') || (c != 0))
-#define PARSE_ERROR(s,n) throw parse_error(Message(s,findLineN(n),n,Message::ERROR))
+#define PARSE_ERROR(s,pos) throw parse_error(Message(s,pos,Message::ERROR))
 
 LispString::LispString(char *str):firstItem(0)
 {
@@ -29,7 +29,7 @@ LispString::~LispString()
 
 LispNode * LispString::parseAtom(char * str, int * i)
 {
-    LispNode * atom = new LispNode;
+    LispNode * atom = new LispNode(Pos(str,*i));
 
     int iStart = *i;
     if (str[*i] == '\"')
@@ -57,7 +57,10 @@ LispNode * LispString::parseAtom(char * str, int * i)
                 if ((numStr[i] == '.') or (numStr[i] == ','))
                     pointCount++;
             if (pointCount > 1)
-                PARSE_ERROR("Wrong number!",*i);
+            {
+                delete atom;
+                PARSE_ERROR("Wrong number!",Pos(str,*i));
+            }
             if (pointCount == 1)
                 atom->data = new AtomFloatData(atof(numStr.c_str()));
             else
@@ -83,7 +86,7 @@ LispNode * LispString::parseAtom(char * str, int * i)
 
 LispNode * LispString::parseList(char * str, int * i, bool noFrame)
 {
-    LispNode * list = new LispNode;
+    LispNode * list = new LispNode(Pos(str,*i));
     LispNode * current = 0;
     LispNode * firstNode = 0;
     while (1)
@@ -115,7 +118,7 @@ LispNode * LispString::parseList(char * str, int * i, bool noFrame)
                 if (!noFrame)
                     goto EXIT;
                 else
-                    PARSE_ERROR("Bad string end must be \':\' or \';\' ",*i);
+                    PARSE_ERROR("Bad string end must be \':\' or \';\' ",Pos(str,*i));
                 break;
             case ' ': break;
             case '\n': break;
@@ -131,7 +134,7 @@ LispNode * LispString::parseList(char * str, int * i, bool noFrame)
                     goto EXIT;
                 }
                 else
-                    PARSE_ERROR("Bracket missed",*i);
+                    PARSE_ERROR("Bracket missed",Pos(str,*i));
                 break;
             default:
                 if (current == 0)
@@ -151,8 +154,8 @@ LispNode * LispString::parseList(char * str, int * i, bool noFrame)
 
 LispNode * LispString::parsePacket(char * str, int * i, bool first)
 {
-    LispNode * packet = new LispNode();
-    LispNode * current = new LispNode();
+    LispNode * packet = new LispNode(Pos(str,*i));
+    LispNode * current = new LispNode(Pos(str,*i));
     //if (first)
     //    current->data = new AtomData(std::string("__global"));
     //else
@@ -179,7 +182,7 @@ LispNode * LispString::parsePacket(char * str, int * i, bool first)
                 if (first)
                     return packet;
                 else
-                    PARSE_ERROR("Bracket missed P",*i);
+                    PARSE_ERROR("Bracket missed P",Pos(str,*i));
                 break;
             default:
                 (*i)--;
@@ -190,14 +193,7 @@ LispNode * LispString::parsePacket(char * str, int * i, bool first)
     }
 }
 
-int LispString::findLineN(int n)
-{
-    int count = 0;
-    for (int i = 0; i < n; i++)
-        if (str[i] == '\n')
-            count++;
-    return count;
-}
+
 
 void LispString::setLispString(char * str)
 {

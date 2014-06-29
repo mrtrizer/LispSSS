@@ -9,6 +9,7 @@
 class LispExecuter;
 class Stack;
 
+///@brief This is an argument for an extern function. You have to fill it before creating an external function.
 class ArgumentName
 {
 public:

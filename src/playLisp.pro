@@ -70,7 +70,8 @@ SOURCES += main.cpp \
     functions/func_continue.cpp \
     functions/func_exec.cpp \
     externfunction.cpp \
-    functions/func_parse.cpp
+    functions/func_parse.cpp \
+    pos.cpp
 
 HEADERS += \
     lispstring.h \
@@ -123,7 +124,8 @@ HEADERS += \
     functions/func_continue.h \
     functions/func_exec.h \
     externfunction.h \
-    functions/func_parse.h
+    functions/func_parse.h \
+    pos.h
 
 OTHER_FILES += \
     README \

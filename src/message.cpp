@@ -2,16 +2,20 @@
 
 std::string Message::typeStrings[3] = {"Error","Info","Warning"};
 
-Message::Message(std::string str, int row, int col, MessageType messageType)
+Message::Message(std::string str, Pos pos, MessageType messageType)
 {
     this->messageType = messageType;
     this->str = str;
-    this->row = row;
-    this->col = col;
+    this->pos = pos;
+}
+
+Message::Message(std::string str, MessageType messageType)
+{
+    this->messageType = messageType;
+    this->str = str;
 }
 
 std::string Message::toString()
 {
-    return "[" + typeStrings[(int)messageType] + "] " + str + " row: " +
-            std::to_string(row) + " col: " + std::to_string(col);
+    return "[" + typeStrings[(int)messageType] + "] " + str + pos.toString();
 }

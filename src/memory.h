@@ -3,6 +3,8 @@
 
 #include "var.h"
 
+///@brief This class represents an associative array, witch contains
+/// variables in block and a pointer to the previous instance.
 class Memory
 {
 public:
