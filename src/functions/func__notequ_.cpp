@@ -2,10 +2,6 @@
 #include "atomtdata.h"
 #include "atomnildata.h"
 
-Func__NotEqu_::Func__NotEqu_():Function(SUBR,-1,2)
-{
-}
-
 Result Func__NotEqu_::run_(const Arguments & arguments, Memory *stack) const
 {
     (void) stack;

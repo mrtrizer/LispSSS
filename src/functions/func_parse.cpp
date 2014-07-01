@@ -2,10 +2,6 @@
 #include "lispstring.h"
 #include "atomstrdata.h"
 
-Func_parse::Func_parse():Function(Function::SUBR,1)
-{
-}
-
 Result Func_parse::run_(const Arguments &arguments, Memory *stack) const
 {
     (void) stack;

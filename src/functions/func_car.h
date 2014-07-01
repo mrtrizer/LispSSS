@@ -6,7 +6,7 @@
 class Func_car : public Function
 {
 public:
-    Func_car();
+    Func_car():Function(SUBR,1){}
     std::string getName() const {return "car";}
 private:
     virtual Result run_(const Arguments & arguments, Memory *stack) const;

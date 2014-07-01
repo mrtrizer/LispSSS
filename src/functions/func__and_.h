@@ -6,7 +6,7 @@
 class Func__And_ : public Function
 {
 public:
-    Func__And_();
+    Func__And_():Function(SUBR,2){}
     std::string getName() const {return "And";}
 private:
     virtual Result run_(const Arguments &arguments, Memory *stack) const;

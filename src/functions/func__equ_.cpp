@@ -2,10 +2,6 @@
 #include "atomtdata.h"
 #include "atomnildata.h"
 
-Func__Equ_::Func__Equ_():Function(SUBR,-1,2)
-{
-}
-
 Result Func__Equ_::run_(const Arguments & arguments, Memory *stack) const
 {
     (void) stack;

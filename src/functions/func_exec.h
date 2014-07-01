@@ -8,7 +8,7 @@ class LispExecuter;
 class Func_exec : public Function
 {
 public:
-    Func_exec(LispExecuter *executer);
+    Func_exec(LispExecuter *executer):Function(SUBR,-1,1),executer(executer){}
     std::string getName() const {return "exec";}
 private:
     virtual Result run_(const Arguments & arguments, Memory *stack) const;

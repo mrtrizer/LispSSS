@@ -7,7 +7,7 @@
 class Func_return:public Function
 {
 public:
-    Func_return();
+    Func_return():Function(SUBR,1){}
     std::string getName() const {return "return";}
 private:
     virtual Result run_(const Arguments & arguments, Memory *stack) const;

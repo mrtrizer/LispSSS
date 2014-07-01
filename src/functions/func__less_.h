@@ -6,7 +6,7 @@
 class Func__Less_ : public Function
 {
 public:
-    Func__Less_();
+    Func__Less_():Function(SUBR,2){}
     std::string getName() const {return "Less";}
 private:
     virtual Result run_(const Arguments &arguments, Memory *stack) const;

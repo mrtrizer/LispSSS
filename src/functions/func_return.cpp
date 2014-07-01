@@ -2,10 +2,6 @@
 #include "func_while.h"
 #include "atomnildata.h"
 
-Func_return::Func_return():Function(SUBR,1)
-{
-}
-
 Result Func_return::run_(const Arguments & arguments, Memory *stack) const
 {
     (void) stack;

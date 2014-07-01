@@ -43,6 +43,7 @@ private:
     virtual Result run_(const Arguments & arguments, Memory *stack) const = 0;
 };
 
+///@brief This macros helps to validate arguments in some types of functions.
 #define TEST_ARG(n,type) \
 {\
     if (!(arguments[n].getData()->getDataType() & (type))) \

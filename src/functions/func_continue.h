@@ -6,7 +6,7 @@
 class Func_continue : public Function
 {
 public:
-    Func_continue();
+    Func_continue():Function(SUBR){}
     std::string getName() const {return "continue";}
 private:
     virtual Result run_(const Arguments & arguments, Memory *stack) const;

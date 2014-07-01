@@ -6,7 +6,7 @@
 class Func__GreaterEqu_ : public Function
 {
 public:
-    Func__GreaterEqu_();
+    Func__GreaterEqu_():Function(SUBR,2){}
     std::string getName() const {return "Greater or equal";}
 private:
     virtual Result run_(const Arguments &arguments, Memory *stack) const;

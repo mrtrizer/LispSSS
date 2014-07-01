@@ -5,10 +5,6 @@
 #include "atomnildata.h"
 #include "funcdata.h"
 
-Func_defun::Func_defun(LispExecuter * executer):Function(FSUBR,3),executer(executer)
-{
-}
-
 Result Func_defun::run_(const Arguments & arguments, Memory *stack) const
 {
     int argCount = 0;

@@ -4,10 +4,6 @@
 #include "atomtdata.h"
 #include "atomnildata.h"
 
-Func__Less_::Func__Less_():Function(SUBR,2)
-{
-}
-
 Result Func__Less_::run_(const Arguments & arguments, Memory *stack) const
 {
     (void)stack;

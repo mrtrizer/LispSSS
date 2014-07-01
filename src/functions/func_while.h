@@ -17,7 +17,7 @@ public:
         Result result;
     };
     class continue_exception{};
-    Func_while(LispExecuter * executer);
+    Func_while(LispExecuter * executer):Function(FSUBR,2),executer(executer){}
     std::string getName() const {return "while";}
 private:
     virtual Result run_(const Arguments &arguments, Memory *stack) const;

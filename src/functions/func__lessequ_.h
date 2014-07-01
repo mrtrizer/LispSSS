@@ -6,7 +6,7 @@
 class Func__LessEqu_ : public Function
 {
 public:
-    Func__LessEqu_();
+    Func__LessEqu_():Function(SUBR,2){}
     std::string getName() const {return "Less or equal";}
 private:
     virtual Result run_(const Arguments &arguments, Memory *stack) const;

@@ -6,7 +6,7 @@
 class Func__Or_ : public Function
 {
 public:
-    Func__Or_();
+    Func__Or_():Function(SUBR,2){}
     std::string getName() const {return "Or";}
 private:
     virtual Result run_(const Arguments &arguments, Memory *stack) const;

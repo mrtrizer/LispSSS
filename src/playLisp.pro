@@ -29,7 +29,6 @@ SOURCES += main.cpp \
     lispnode.cpp \
     function.cpp \
     functions/func_defun.cpp \
-    functions/func___global.cpp \
     value.cpp \
     functions/func__plus_.cpp \
     functions/func__minus_.cpp \
@@ -84,7 +83,6 @@ HEADERS += \
     lispnode.h \
     function.h \
     functions/func_defun.h \
-    functions/func___global.h \
     value.h \
     functions/func__plus_.h \
     functions/func__minus_.h \

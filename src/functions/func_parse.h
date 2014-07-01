@@ -6,7 +6,7 @@
 class Func_parse : public Function
 {
 public:
-    Func_parse();
+    Func_parse():Function(Function::SUBR,1){}
     std::string getName() const {return "parse";}
 private:
     virtual Result run_(const Arguments &arguments, Memory *stack) const;

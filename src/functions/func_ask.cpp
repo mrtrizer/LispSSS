@@ -3,10 +3,6 @@
 #include "atomfloatdata.h"
 #include "atomintdata.h"
 
-Func_ask::Func_ask(std::ostream *out, std::istream *in):Function(SUBR,-1),in(in),out(out)
-{
-}
-
 Result Func_ask::run_(const Arguments &arguments, Memory *stack) const
 {
     (void) stack;

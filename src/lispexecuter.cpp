@@ -38,6 +38,7 @@
 #include "func_continue.h"
 #include "func_exec.h"
 #include "func_parse.h"
+#include "func_size.h"
 
 
 #include <assert.h>
@@ -75,6 +76,7 @@ void LispExecuter::run(Memory * stackRoot)
         global.setVar(Var("!=",new FuncData(new Func__NotEqu_(),0)));
         global.setVar(Var("cdr",new FuncData(new Func_cdr(),0)));
         global.setVar(Var("car",new FuncData(new Func_car(),0)));
+        global.setVar(Var("size",new FuncData(new Func_size(),0)));
         global.setVar(Var("ask",new FuncData(new Func_ask(out,in),0)));
         global.setVar(Var("print",new FuncData(new Func_print(out),0)));
         global.setVar(Var("func",new FuncData(new Func_func(this),0)));

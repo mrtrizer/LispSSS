@@ -6,10 +6,6 @@
 #include "listdata.h"
 #include "atomdata.h"
 
-Func_func::Func_func(LispExecuter * executer):Function(FSUBR,2),executer(executer)
-{
-}
-
 Result Func_func::run_(const Arguments & arguments, Memory *stack) const
 {
     (void) stack;

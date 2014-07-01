@@ -2,10 +2,6 @@
 #include "atomfloatdata.h"
 #include "atomintdata.h"
 
-Func__Plus_::Func__Plus_():Function(SUBR,-1,2)
-{
-}
-
 Result Func__Plus_::run_(const Arguments & arguments, Memory *stack) const
 {
     (void)stack;

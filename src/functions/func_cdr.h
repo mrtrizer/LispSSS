@@ -6,7 +6,7 @@
 class Func_cdr : public Function
 {
 public:
-    Func_cdr();
+    Func_cdr():Function(SUBR,1){}
     std::string getName() const {return "cdr";}
 private:
     virtual Result run_(const Arguments & arguments, Memory *stack) const;

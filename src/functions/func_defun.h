@@ -10,7 +10,7 @@ class LispExecuter;
 class Func_defun : public Function
 {
 public:
-    Func_defun(LispExecuter *executer);
+    Func_defun(LispExecuter *executer):Function(FSUBR,3),executer(executer){}
     std::string getName() const {return "defun";}
 private:
     virtual Result run_(const Arguments & arguments, Memory *stack) const;

@@ -2,10 +2,6 @@
 #include "atomtdata.h"
 #include "atomnildata.h"
 
-Func__Not_::Func__Not_():Function(SUBR,1)
-{
-}
-
 Result Func__Not_::run_(const Arguments & arguments, Memory *stack) const
 {
     (void)stack;

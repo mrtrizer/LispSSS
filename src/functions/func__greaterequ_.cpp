@@ -4,10 +4,6 @@
 #include "atomtdata.h"
 #include "atomnildata.h"
 
-Func__GreaterEqu_::Func__GreaterEqu_():Function(SUBR,2)
-{
-}
-
 Result Func__GreaterEqu_::run_(const Arguments & arguments, Memory *stack) const
 {
     (void)stack;

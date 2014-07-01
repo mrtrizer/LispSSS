@@ -2,11 +2,6 @@
 #include "atomstrdata.h"
 #include "atomnildata.h"
 
-Func_print::Func_print(std::ostream *out):Function(SUBR,-1,1),out(out)
-{
-
-}
-
 Result Func_print::run_(const Arguments &arguments, Memory *stack) const
 {
     (void) stack;

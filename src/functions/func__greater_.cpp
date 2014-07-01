@@ -4,10 +4,6 @@
 #include "atomtdata.h"
 #include "atomnildata.h"
 
-Func__Greater_::Func__Greater_():Function(SUBR,2)
-{
-}
-
 Result Func__Greater_::run_(const Arguments & arguments, Memory *stack) const
 {
     (void)stack;

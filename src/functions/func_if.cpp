@@ -4,10 +4,6 @@
 #include "atomnildata.h"
 #include "atomdata.h"
 
-Func_if::Func_if(LispExecuter * executer):Function(FSUBR,-1,2),executer(executer)
-{
-}
-
 Result Func_if::run_(const Arguments & arguments, Memory *stack) const
 {
     Result result;

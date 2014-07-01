@@ -4,10 +4,6 @@
 #include "atomtdata.h"
 #include "atomnildata.h"
 
-Func__LessEqu_::Func__LessEqu_():Function(SUBR,2)
-{
-}
-
 Result Func__LessEqu_::run_(const Arguments & arguments, Memory *stack) const
 {
     (void)stack;

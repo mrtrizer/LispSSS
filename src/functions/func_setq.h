@@ -9,7 +9,7 @@ class LispExecuter;
 class Func_setq : public Function
 {
 public:
-    Func_setq(LispExecuter * executer);
+    Func_setq(LispExecuter * executer):Function(FSUBR,2),executer(executer){}
     std::string getName() const {return "setq";}
 private:
     virtual Result run_(const Arguments & arguments, Memory *stack) const;

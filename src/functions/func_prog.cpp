@@ -2,10 +2,6 @@
 #include "lispexecuter.h"
 #include "atomnildata.h"
 
-Func_prog::Func_prog(LispExecuter *executer):Function(FSUBR),executer(executer)
-{
-}
-
 Result Func_prog::run_(const Arguments & arguments, Memory *stack) const
 {
     Memory localStack (stack);

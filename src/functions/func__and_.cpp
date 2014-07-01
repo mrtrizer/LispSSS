@@ -2,10 +2,6 @@
 #include "atomtdata.h"
 #include "atomnildata.h"
 
-Func__And_::Func__And_():Function(SUBR,2)
-{
-}
-
 Result Func__And_::run_(const Arguments & arguments, Memory *stack) const
 {
     (void)stack;
