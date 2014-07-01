@@ -15,6 +15,7 @@ public:
     LispNode(Data * data, const Pos & pos):data(data),pos(pos){}
     LispNode(Data * data):data(data){}
     LispNode(const LispNode &node);
+    LispNode & operator= (const LispNode &node);
     LispNode():data(0){}
     ~LispNode();
     const Pos & getPos()const {return pos;}

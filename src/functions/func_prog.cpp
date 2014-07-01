@@ -10,8 +10,8 @@ Result Func_prog::run_(const Arguments & arguments, Memory *stack) const
 {
     Memory localStack (stack);
     Arguments::const_iterator i;
-    Result result(new AtomNilData());
+    Result result;
     for (i = arguments.begin(); i != arguments.end(); i++)
-        executer->functionHandler(i->getData(),&localStack);
+        result = executer->functionHandler(i->getData(),&localStack);
     return result;
 }

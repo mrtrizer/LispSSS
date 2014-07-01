@@ -19,6 +19,18 @@ LispNode::LispNode(LispNode const & node)
     this->pos = node.pos;
 }
 
+LispNode & LispNode::operator= (const LispNode &node)
+{
+    if (this->data)
+        delete data;
+    if (node.data)
+        this->data = node.data->getClone();
+    else
+        this->data = 0;
+    this->pos = node.pos;
+    return *this;
+}
+
 std::string LispNode::toString() const
 {
     return toString(0);
@@ -40,8 +52,8 @@ std::string LispNode::toString(int n) const
         str += spaces(n) + "(\n";
         std::vector<LispNode>::iterator i;
         for (i = ((ListData *)data)->list.begin(); i != ((ListData *)data)->list.end(); i++)
-            str += spaces(n) + i->toString() + "\n";
-        str += ")\n";
+            str += i->toString(n + 1) + "\n";
+        str += spaces(n) + ")\n";
     }
     else
         str += spaces(n) + data->toString();
