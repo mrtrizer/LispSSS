@@ -3,27 +3,22 @@
 
 #include "lispnode.h"
 #include "data.h"
+#include <vector>
 
 ///@brief Represents list
 class ListData:public Data
 {
 public:
-    ListData(LispNode * node){this->firstNode = node;}
-    ~ListData(){delete firstNode;}
-    std::string toString() const {return firstNode->toString();}
-    LispNode * getRoot() const {return firstNode;}
+    ListData(){}
+    std::string toString() const;
     DataType getDataType() const {return LIST;}
     Data * getClone() const
-    {
-        if (firstNode != 0)
-            return new ListData(new LispNode(*firstNode));
-        else
-            return new ListData(0);
-    }
+    {ListData * listData = new ListData();
+        listData->list = list;
+        return listData;}
     bool isEqual(const Data * data) const {(void)data; return false;}
     virtual unsigned int getSize() const {return 0;}
-private:
-    LispNode * firstNode;
+    std::vector<LispNode> list;
 };
 
 #endif // LISTDATA_H

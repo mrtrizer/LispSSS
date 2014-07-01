@@ -8,7 +8,7 @@
 #include <vector>
 
 LispFunction::LispFunction(FunctionType type, int argCount, int minArgCount,
-        const Data * text, const Data * args, LispExecuter * executer):Function(type,argCount)
+        const Data * text, const ListData * args, LispExecuter * executer):Function(type,argCount)
 {
     this->executer = executer;
     this->args = args;
@@ -20,12 +20,8 @@ LispFunction::LispFunction(FunctionType type, int argCount, int minArgCount,
 Result LispFunction::run_(const Arguments &arguments, Memory *stack) const
 {
     std::vector <std::string> names;
-    LispNode * tmp = ((ListData *)args)->getRoot();
-    while (tmp != 0)
-    {
-        names.push_back(((AtomData*)tmp->data)->getName());
-        tmp = tmp->next;
-    }
+    for (std::vector<LispNode>::const_iterator i = args->list.begin(); i != args->list.end(); i++)
+        names.push_back(((AtomData*)i->data)->getName());
     if (argCount != -1)
         if (argCount != (int)arguments.size())
             ERROR_MESSAGE("This function needs " + std::to_string(names.size()) + " arguments");
@@ -35,16 +31,10 @@ Result LispFunction::run_(const Arguments &arguments, Memory *stack) const
         stack->setVar(Var(names[i],(Data *)arguments[i].getData()->getClone()));
     if ((argCount == -1) && (minArgCount < (int)arguments.size()))
     {
-        LispNode * start = 0;
-        LispNode * cur = 0;
+        ListData * listData = new ListData();
         for (unsigned int i = minArgCount; i < arguments.size(); i++)
-        {
-            if (start == 0)
-                cur = start = new LispNode(arguments[i].getData()->getClone());
-            else
-                cur = cur->next = new LispNode(arguments[i].getData()->getClone());
-        }
-        stack->setVar(Var("_args_",new ListData(start)));
+            listData->list.push_back(LispNode(arguments[i].getData()->getClone()));
+        stack->setVar(Var("_args_",listData));
     }
     Result result;
     try

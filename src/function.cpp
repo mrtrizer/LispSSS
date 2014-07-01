@@ -15,14 +15,3 @@ Result Function::run(const Arguments & arguments, Memory * stack) const
         ERROR_MESSAGE("Function " + this->getName() + " needs not less than " + std::to_string(minArgCount) + " arguments.");
     return run_(arguments,stack);
 }
-
-Arguments Arguments::fromLispNode(LispNode *node)
-{
-    Arguments result;
-    while (node != 0)
-    {
-        result.push_back(Value(node->data->getClone()));
-        node = node->next;
-    }
-    return result;
-}

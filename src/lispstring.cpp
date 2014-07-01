@@ -87,8 +87,8 @@ LispNode * LispString::parseAtom(char * str, int * i)
 LispNode * LispString::parseList(char * str, int * i, bool noFrame)
 {
     LispNode * list = new LispNode(Pos(str,*i));
-    LispNode * current = 0;
-    LispNode * firstNode = 0;
+    ListData * listData;
+    list->data = listData = new ListData();
     while (1)
     {
         (*i)++;
@@ -97,26 +97,14 @@ LispNode * LispString::parseList(char * str, int * i, bool noFrame)
         switch (str[*i])
         {
             case '(':
-                if (current == 0)
-                    firstNode = current = parseList(str,i);
-                else
-                {
-                    current->next = parseList(str,i);
-                    current = current->next;
-                }
+                listData->list.push_back(*parseList(str,i));
                 break;
             case '{':
-                if (current == 0)
-                    firstNode = current = parsePacket(str,i);
-                else
-                {
-                    current->next = parsePacket(str,i);
-                    current = current->next;
-                }
+                listData->list.push_back(*parsePacket(str,i));
                 break;
             case ')':
                 if (!noFrame)
-                    goto EXIT;
+                    return list;
                 else
                     PARSE_ERROR("Bad string end must be \':\' or \';\' ",Pos(str,*i));
                 break;
@@ -131,36 +119,25 @@ LispNode * LispString::parseList(char * str, int * i, bool noFrame)
                 if (noFrame) // If we came here from parsePacket
                 {
                     (*i)--;
-                    goto EXIT;
+                    return list;
                 }
                 else
                     PARSE_ERROR("Bracket missed",Pos(str,*i));
                 break;
             default:
-                if (current == 0)
-                    firstNode = current = parseAtom(str,i);
-                else
-                {
-                    current->next = parseAtom(str,i);
-                    current = current->next;
-                }
+                listData->list.push_back(*parseAtom(str,i));
                 break;
         }
     }
-    EXIT:
-    list->data = new ListData(firstNode);
-    return list;
 }
 
 LispNode * LispString::parsePacket(char * str, int * i, bool first)
 {
     LispNode * packet = new LispNode(Pos(str,*i));
-    LispNode * current = new LispNode(Pos(str,*i));
-    //if (first)
-    //    current->data = new AtomData(std::string("__global"));
-    //else
-        current->data = new AtomData(std::string("prog"));
-    packet->data = new ListData(current);
+    ListData * listData;
+    packet->data = listData = new ListData();
+    listData->list.push_back(LispNode(new AtomData("prog"),Pos(str,*i)));
+
     while (1)
     {
         (*i)++;
@@ -186,8 +163,7 @@ LispNode * LispString::parsePacket(char * str, int * i, bool first)
                 break;
             default:
                 (*i)--;
-                    current->next = parseList(str, i, true);
-                    current = current->next;
+                listData->list.push_back(*parseList(str, i, true));
                 break;
         }
     }

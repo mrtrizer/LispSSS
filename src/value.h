@@ -2,6 +2,7 @@
 #define VALUE_H
 
 #include "data.h"
+#include <QDebug>
 
 ///@brief I don't like smart pointers.
 class Value
@@ -13,9 +14,13 @@ public:
     {
         if (data)
             delete data;
-        data = value.data->getClone();
+        if (value.data != 0)
+            data = value.data->getClone();
+        else
+            data = 0;
         return *this;
     }
+
     ~Value(){if (data) delete data;}
     const Data * getData() const {return data;}
 private:

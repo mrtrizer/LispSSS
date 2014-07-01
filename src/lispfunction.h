@@ -5,15 +5,16 @@
 
 class LispExecuter;
 class Stack;
+class ListData;
 
 class LispFunction : public Function
 {
 public:
     LispFunction(FunctionType type, int argCount, int minArgCount,
-                 const Data * text, const Data * args, LispExecuter * executer);
+                 const Data * text, const ListData * args, LispExecuter * executer);
 private:
     virtual Result run_(const Arguments &arguments, Memory *stack) const;
-    const Data * args;
+    const ListData * args;
     const Data * text;
     LispExecuter * executer;
     int argCount;

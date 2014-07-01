@@ -10,7 +10,7 @@ Result Func_car::run_(const Arguments &arguments, Memory *stack) const
 {
     (void) stack;
     if (arguments[0].getData()->getDataType() == Data::LIST)
-        return Result(((ListData *)arguments[0].getData())->getRoot()->data->getClone());
+        return Result(((ListData *)arguments[0].getData())->list[0].data->getClone());
     else
         ERROR_MESSAGE("Function car. Argument must be LIST.");
     return Result(new AtomNilData());

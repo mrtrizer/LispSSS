@@ -17,12 +17,13 @@ Result Func_func::run_(const Arguments & arguments, Memory *stack) const
     //return Result(new AtomNilData());
     int argCount = 0;
     int minArgCount = 0;
-    LispNode * tmp = ((ListData *)arguments[0].getData())->getRoot();
-    while (tmp != 0)
+    std::vector<LispNode>::const_iterator i;
+    ListData * listData = (ListData *)arguments[0].getData();
+    for (i = listData->list.begin();i != listData->list.end(); i++)
     {
-        if(tmp->data->getDataType() == Data::ATOM)
+        if(i->data->getDataType() == Data::ATOM)
         {
-            if (((AtomData *)tmp->data)->getName() == "...")
+            if (((AtomData *)i->data)->getName() == "...")
             {
                 minArgCount = argCount;
                 argCount = -1;
@@ -33,8 +34,7 @@ Result Func_func::run_(const Arguments & arguments, Memory *stack) const
         }
         else
             ERROR_MESSAGE ("All argument names must be atoms.");
-        tmp = tmp->next;
     }
     return Result(new FuncData(new LispFunction(Function::EXPR,argCount,minArgCount,arguments[1].getData()->getClone(),
-                               arguments[0].getData()->getClone(),executer),0));
+                               (ListData*)arguments[0].getData()->getClone(),executer),0));
 }

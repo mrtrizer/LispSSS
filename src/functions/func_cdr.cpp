@@ -12,8 +12,13 @@ Result Func_cdr::run_(const Arguments &arguments, Memory *stack) const
     if (arguments[0].getData()->getDataType() == Data::LIST)
     {
         ListData * list = (ListData *)arguments[0].getData();
-        if (list->getRoot()->next != 0)
-            return Result(new ListData (new LispNode(*list->getRoot()->next)));
+        if (list->list.size() > 1)
+        {
+            ListData * result = new ListData ();
+            for (std::vector<LispNode>::iterator i = list->list.begin() + 1; i != list->list.end(); i++)
+                result->list.push_back(*i);
+            return Result(result);
+        }
         else
             return Result(new AtomNilData());
     }

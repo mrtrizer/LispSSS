@@ -6,8 +6,6 @@
 
 LispNode::~LispNode()
 {
-    if (next) //FIXIT
-        delete next;
     if (data)
         delete data;
 }
@@ -18,16 +16,12 @@ LispNode::LispNode(LispNode const & node)
         this->data = node.data->getClone();
     else
         this->data = 0;
-    if (node.next)
-        this->next = new LispNode(*node.next);
-    else
-        this->next = 0;
     this->pos = node.pos;
 }
 
-std::string LispNode::toString()
+std::string LispNode::toString() const
 {
-    return toString(this,0);
+    return toString(0);
 }
 
 std::string LispNode::spaces(int n)
@@ -38,28 +32,18 @@ std::string LispNode::spaces(int n)
     return str;
 }
 
-std::string LispNode::toString(LispNode * item, int n)
+std::string LispNode::toString(int n) const
 {
     std::string str;
-    if (item->data->getDataType() == Data::LIST)
+    if (data->getDataType() == Data::LIST)
     {
-        LispNode * tmp = ((ListData *)item->data)->getRoot();
-        str += spaces(n);
-        str += "(\n";
-        str += toString(tmp,n + 1);
-        str += spaces(n);
+        str += spaces(n) + "(\n";
+        std::vector<LispNode>::iterator i;
+        for (i = ((ListData *)data)->list.begin(); i != ((ListData *)data)->list.end(); i++)
+            str += spaces(n) + i->toString() + "\n";
         str += ")\n";
-        if (item->next != 0)
-            str += '\n' + item->next->toString(item->next,n);
     }
     else
-    {
-        str += spaces(n);
-        str += item->data->toString();
-        if (item->next != 0)
-            str += '\n' + item->next->toString(item->next,n);
-        else
-            str += '\n';
-    }
+        str += spaces(n) + data->toString();
     return str;
 }

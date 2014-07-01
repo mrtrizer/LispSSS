@@ -19,13 +19,13 @@ Result Func_exec::run_(const Arguments & arguments, Memory *stack) const
     {
         TEST_ARG(1,Data::LIST);
         Memory localStack(0);
-        LispNode * tmp = ((ListData *)arguments[1].getData())->getRoot();
-        while (tmp != 0)
+        std::vector<LispNode>::const_iterator i;
+        ListData * listData = (ListData *)arguments[1].getData();
+        for (i = listData->list.begin();i != listData->list.end(); i++)
         {
-            if (tmp->data->getDataType() != Data::ATOM)
+            if (i->data->getDataType() != Data::ATOM)
                 ERROR_MESSAGE("All elements in the variable list must be ATOM.");
-            localStack.setVar(stack->findVar(((AtomData*) tmp->data)->getName()));
-            tmp = tmp->next;
+            localStack.setVar(stack->findVar(((AtomData*) i->data)->getName()));
         }
         localStack.setVar(Var("prog",new FuncData(new Func_prog(executer),0)));
         return executer->functionHandler(arguments[0].getData(),&localStack);

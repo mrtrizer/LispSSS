@@ -105,42 +105,52 @@ Result LispExecuter::functionHandler(const Data * data, Memory * stack)
     if (data->getDataType() == Data::LIST)
     {
         ListData * listData = (ListData *)data;
-        if (listData->getRoot()->data->getDataType() & (Data::ATOM | Data::LIST))
+        if (listData->list[0].data->getDataType() & (Data::ATOM | Data::LIST))
         {
-            curPos = listData->getRoot()->getPos();
-            Result funcId = functionHandler(listData->getRoot()->data,stack);
+            curPos = listData->list[0].getPos();
+            Result funcId = functionHandler(listData->list[0].data,stack);
             if (funcId.getData()->getDataType() == Data::FUNC)
             {
                 FuncData * func = (FuncData *)funcId.getData();
                 Arguments arguments;
-                switch (func->getFunc()->type)
+                if (listData->list.size() > 1)
                 {
-                    case Function::EXPR:
-                    case Function::SUBR:
+                    switch (func->getFunc()->type)
                     {
-
-                        LispNode * tmp = listData->getRoot()->next;
-                        while (tmp != 0)
+                        case Function::EXPR:
+                        case Function::SUBR:
                         {
-                            curPos = tmp->getPos();
-                            arguments.push_back((Value)functionHandler(tmp->data,stack));
-                            tmp = tmp->next;
-                        }
 
-                        break;
-                    }
-                    case Function::MACRO:
-                    case Function::FEXPR:
-                    case Function::FSUBR:
-                    {
-                        arguments = Arguments::fromLispNode(listData->getRoot()->next);
-                        break;
+                            std::vector<LispNode>::iterator i;
+                            for (i = listData->list.begin() + 1; i != listData->list.end(); i++)
+                            {
+                                curPos = i->getPos();
+                                arguments.push_back((Value)functionHandler(i->data,stack));
+                            }
+
+                            break;
+                        }
+                        case Function::MACRO:
+                        case Function::FEXPR:
+                        case Function::FSUBR:
+                        {
+                            std::vector<LispNode>::iterator i;
+                            for (i = listData->list.begin() + 1; i != listData->list.end(); i++)
+                            {
+                                curPos = i->getPos();
+                                arguments.push_back(Value(i->data));
+                            }
+
+                            break;
+                        }
                     }
                 }
+                Result result;
                 if (func->getMem()->getPrev() == 0)
-                    return func->getFunc()->run(arguments,stack);
+                    result = func->getFunc()->run(arguments,stack);
                 else
-                    return func->getFunc()->run(arguments,func->getMem());
+                    result = func->getFunc()->run(arguments,func->getMem());
+                return result;
             }
             else
                 ERROR_MESSAGE("Function " + funcId.getData()->toString() + " not defined!");

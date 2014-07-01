@@ -9,12 +9,7 @@
 #include <vector>
 #include <string>
 
-class Arguments:public std::vector<Value>
-{
-public:
-    static Arguments fromLispNode(LispNode * node);
-};
-
+typedef std::vector<Value> Arguments;
 typedef Value Result;
 
 class Memory;
