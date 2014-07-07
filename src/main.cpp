@@ -13,6 +13,7 @@
 #include "memory.h"
 #include "funcdata.h"
 #include "externfunction.h"
+#include "lexicalanalyzer.h"
 
 char * foo(unsigned int x, float y)
 {
@@ -39,33 +40,48 @@ int main(int argc, char *argv[])
     }
     else
         ifs.open(argv[1]);
-    std::stringstream ss;
-    ss << ifs.rdbuf ();
-    std::string text = ss.str();
-    //std::cout << text;
+    LexicalAnalyzer la(&ifs);
+    Lexem l;
+    try
     {
-        LispString lispStr(text.c_str());
-        if (!lispStr.isValid())
+        while (l.getType() != Lexem::ZERO)
         {
-            std::cout << "Parse error!" << std::endl;
-            std::vector<Message> messages = lispStr.getMessages();
-            std::vector<Message>::iterator i;
-            for (i = messages.begin(); i != messages.end(); i++)
-                std::cout << i->toString();
-            return 1;
+            l = la.getNextLexem();
+            std::cout << l.toString() << std::endl;
         }
-        LispExecuter lispExecuter(&lispStr,&std::cout,&std::cout,&std::cin);
-        Memory variables(0);
-        double test = 0;
-        variables.setVar(Var("test",new AtomFloatData(test)));
-        //Extern function adding
-        std::vector<ArgumentName> argumentNames;
-        argumentNames.push_back(ArgumentName("a",&ffi_type_uint));
-        argumentNames.push_back(ArgumentName("b",&ffi_type_float));
-        variables.setVar(Var("foo",new FuncData(new ExternFunction(argumentNames,&lispExecuter,(void(*)(void))foo,&ffi_type_pointer),&variables)));
-        //Runing
-        lispExecuter.run(&variables);
     }
+    catch(Message & m)
+    {
+        std::cout << m.toString();
+    }
+
+//    std::stringstream ss;
+//    ss << ifs.rdbuf ();
+//    std::string text = ss.str();
+//    //std::cout << text;
+//    {
+//        LispString lispStr(text.c_str());
+//        if (!lispStr.isValid())
+//        {
+//            std::cout << "Parse error!" << std::endl;
+//            std::vector<Message> messages = lispStr.getMessages();
+//            std::vector<Message>::iterator i;
+//            for (i = messages.begin(); i != messages.end(); i++)
+//                std::cout << i->toString();
+//            return 1;
+//        }
+//        LispExecuter lispExecuter(&lispStr,&std::cout,&std::cout,&std::cin);
+//        Memory variables(0);
+//        double test = 0;
+//        variables.setVar(Var("test",new AtomFloatData(test)));
+//        //Extern function adding
+//        std::vector<ArgumentName> argumentNames;
+//        argumentNames.push_back(ArgumentName("a",&ffi_type_uint));
+//        argumentNames.push_back(ArgumentName("b",&ffi_type_float));
+//        variables.setVar(Var("foo",new FuncData(new ExternFunction(argumentNames,&lispExecuter,(void(*)(void))foo,&ffi_type_pointer),&variables)));
+//        //Runing
+//        lispExecuter.run(&variables);
+//    }
     getchar();
     return 0;
 }

@@ -3,10 +3,10 @@
 #Operations
 setq functions
 (quote (
-        (func (a b)(+ a b))
-        (func (a b)(- a b))
-        (func (a b)(* a b))
-        (func (a b)(/ a b))
+    (func (a b)(+ a b))
+    (func (a b)(- a b))
+    (func (a b)(* a b))
+    (func (a b)(/ a b))
 ));
 
 #Operation names
@@ -23,37 +23,37 @@ defun main ()
 {
     print (size (1 2 3 4 5 6));
     print (foo 5 100.0);
-        while T
+    while T
+    {
+        setq tmp func_names;
+        setq i 1;
+        while (!= tmp nil)
         {
-                setq tmp func_names;
-                setq i 1;
-                while (!= tmp nil)
-                {
-                    print i ". " (car tmp);
-                    setq tmp (cdr tmp);
-                    setq i (+ i 1);
-                };
-
-                print i ". Exit";
-                setq n (ask "Enter n: " );
-                if (|| (< n 1) (> n i))
-                {
-                        print "Bad number, repeat please";
-                        continue;
-                };
-                if (== n i) (return nil);
-                setq a (ask "Enter a: ");
-                setq b (ask "Enter b: ");
-                setq tmp functions;
-                while (!= n 1)
-                {
-                    setq tmp (cdr tmp);
-                    setq n (- n 1);
-                };
-                setq result ((exec (exec (car tmp))) a b);
-                print "Result = " result;
-                setq test result;
+            print i ". " (car tmp);
+            setq tmp (cdr tmp);
+            setq i (+ i 1);
         };
+
+        print i ". Exit";
+        setq n (ask "Enter n: " );
+        if (|| (< n 1) (> n i))
+        {
+            print "Bad number, repeat please";
+            continue;
+        };
+        if (== n i) (return nil);
+        setq a (ask "Enter a: ");
+        setq b (ask "Enter b: ");
+        setq tmp functions;
+        while (!= n 1)
+        {
+            setq tmp (cdr tmp);
+            setq n (- n 1);
+        };
+        setq result ((exec (exec (car tmp))) a b);
+        print "Result = " result;
+        setq test result;
+    };
 };
 
 main;

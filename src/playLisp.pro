@@ -71,7 +71,9 @@ SOURCES += main.cpp \
     externfunction.cpp \
     functions/func_parse.cpp \
     pos.cpp \
-    functions/func_size.cpp
+    functions/func_size.cpp \
+    lexicalanalyzer.cpp \
+    lexem.cpp
 
 HEADERS += \
     lispstring.h \
@@ -125,7 +127,9 @@ HEADERS += \
     externfunction.h \
     functions/func_parse.h \
     pos.h \
-    functions/func_size.h
+    functions/func_size.h \
+    lexicalanalyzer.h \
+    lexem.h
 
 OTHER_FILES += \
     README \
