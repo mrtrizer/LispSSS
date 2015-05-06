@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="23cm" height="21cm" viewBox="259 39 442 420" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffff" x="260" y="120" width="220" height="40"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="260" y="120" width="220" height="40"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="370" y="143.9">
+      <tspan x="370" y="143.9">Лексический анализатор</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="260" y="200" width="220" height="38"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="260" y="200" width="220" height="38"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="370" y="222.9">
+      <tspan x="370" y="222.9">Синтаксический анализатор</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="370" y1="160" x2="370" y2="189.264"/>
+    <polygon style="fill: #000000" points="370,196.764 365,186.764 370,189.264 375,186.764 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="370,196.764 365,186.764 370,189.264 375,186.764 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="260" y="40" width="220" height="40"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="260" y="40" width="220" height="40"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="370" y="63.9">
+      <tspan x="370" y="63.9">Поток символов</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="370" y1="80" x2="370" y2="110.264"/>
+    <polygon style="fill: #000000" points="370,117.764 365,107.764 370,110.264 375,107.764 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="370,117.764 365,107.764 370,110.264 375,107.764 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="540" y="200" width="160" height="38"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="540" y="200" width="160" height="38"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="620" y="222.9">
+      <tspan x="620" y="222.9">Кеш</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 4; stroke: #000000" x1="481" y1="219" x2="529.263" y2="219"/>
+    <polygon style="fill: #000000" points="536.763,219 526.763,224 529.263,219 526.763,214 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="536.763,219 526.763,224 529.263,219 526.763,214 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="380" y="340" width="240" height="38"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="380" y="340" width="240" height="38"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="500" y="362.9">
+      <tspan x="500" y="362.9">Семантический анализатор</tspan>
+    </text>
+  </g>
+  <g>
+    <ellipse style="fill: #ffffff" cx="500" cy="280" rx="21.3835" ry="21.3835"/>
+    <ellipse style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" cx="500" cy="280" rx="21.3835" ry="21.3835"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="500" y="283.9">
+      <tspan x="500" y="283.9">or</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="581.562" y1="238.539" x2="528.638" y2="265.443"/>
+    <polygon style="fill: #000000" points="521.952,268.841 528.6,259.853 528.638,265.443 533.132,268.767 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="521.952,268.841 528.6,259.853 528.638,265.443 533.132,268.767 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="411.641" y1="238.539" x2="470.921" y2="266.355"/>
+    <polygon style="fill: #000000" points="477.711,269.541 466.534,269.82 470.921,266.355 470.782,260.767 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="477.711,269.541 466.534,269.82 470.921,266.355 470.782,260.767 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="500" y1="302.383" x2="500" y2="329.273"/>
+    <polygon style="fill: #000000" points="500,336.773 495,326.773 500,329.273 505,326.773 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="500,336.773 495,326.773 500,329.273 505,326.773 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="420" y="420" width="166.95" height="38"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="420" y="420" width="166.95" height="38"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="503.475" y="442.9">
+      <tspan x="503.475" y="442.9">Поток исполнения</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="500.869" y1="379.01" x2="502.183" y2="409.263"/>
+    <polygon style="fill: #000000" points="502.509,416.756 497.08,406.983 502.183,409.263 507.07,406.549 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="502.509,416.756 497.08,406.983 502.183,409.263 507.07,406.549 "/>
+  </g>
+</svg>
