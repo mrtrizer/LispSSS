@@ -53,13 +53,12 @@ LispExecuter::LispExecuter(LispString * lispString, std::ostream * errout,
     this->errout = errout;
 }
 
-void LispExecuter::run(Memory * stackRoot)
+void LispExecuter::run(Memory & global)
 {
     if (!lispString->isValid())
         return;
     try
     {
-        Memory global(stackRoot);
         global.setVar(Var("+",new FuncData (new Func__Plus_(),0)));
         global.setVar(Var("-",new FuncData (new Func__Minus_(),0)));
         global.setVar(Var("*",new FuncData (new Func__Mul_(),0)));
@@ -91,14 +90,19 @@ void LispExecuter::run(Memory * stackRoot)
         global.setVar(Var("!",new FuncData(new Func__Not_(),0)));
         global.setVar(Var("^",new FuncData(new Func__Power_(),0)));
 
-        Result result = functionHandler(lispString->getRoot()->data,&global);
+        Result result;
+        ListData * root = (ListData *)lispString->getRoot()->data;
+        std::vector<LispNode>::iterator i;
+        for (i = root->list.begin(); i != root->list.end(); i++)
+            result = functionHandler(i->data,&global);
+
         if (result.getData()->getDataType() != Data::ATOM_NIL)
             *errout << result.getData()->toString() << std::endl;
     }
     catch (Message & m)
     {
         m.setPos(curPos);
-        *errout << m.toString();
+        *errout << m.toString() << std::endl;
     }
 }
 

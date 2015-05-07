@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
         }
         LispExecuter lispExecuter(&lispStr,&std::cout,&std::cout,&std::cin);
         Memory variables(0);
-        lispExecuter.run(&variables);
+        lispExecuter.run(variables);
     }
     getchar();
     return 0;

@@ -17,7 +17,7 @@ class LispExecuter
 {
 public:
     LispExecuter(LispString * lispString, std::ostream *errout = &std::cout, std::ostream * out = 0, std::istream * in = 0);
-    void run(Memory *stackRoot = 0);
+    void run(Memory &global);
     Result functionHandler(const Data *data, Memory *stack);
 
 private:

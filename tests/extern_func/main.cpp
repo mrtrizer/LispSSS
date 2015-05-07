@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     argumentNames.push_back(ArgumentName("b",&ffi_type_float));
     variables.setVar(Var("foo",new FuncData(new ExternFunction(argumentNames,&lispExecuter,(void(*)(void))foo,&ffi_type_pointer),&variables)));
     //Runing
-    lispExecuter.run(&variables);
+    lispExecuter.run(variables);
 
     getchar();
     return 0;
