@@ -13,7 +13,7 @@ CONFIG   += console
 CONFIG   -= app_bundle
 
 TEMPLATE = app
-INCLUDEPATH = $$PWD/functions $$PWD/data_types $$PWD/../libs $$PWD/
+INCLUDEPATH += $$PWD/functions $$PWD/data_types $$PWD/../libs $$PWD/
 
 LIBS += -L$$PWD/../libs/ -lffi
 
