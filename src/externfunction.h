@@ -24,7 +24,7 @@ private:
 class ExternFunction : public Function
 {
 public:
-    ExternFunction(std::vector<ArgumentName> argNames, LispExecuter * executer, void(*func)(void), ffi_type * returnType);
+    ExternFunction(std::vector<ArgumentName> argNames, void(*func)(void), ffi_type * returnType);
     std::string toString() const {return "Extern function";}
 private:
     virtual Result run_(const Arguments &arguments, Memory *stack) const;
@@ -35,13 +35,11 @@ private:
     /// data is a string and it will be deleted after Data object creating.
     Data * convertToLispType(ffi_type * sourceCType,char * cData) const;
     ///@brief Converts data from lispData to cData with targetCType
-    void convertToCType(const Data *lispData, ffi_type * targetCType, char *cData) const;
+    void convertToCType(const Data *lispData, ffi_type * targetCType, char *cData, std::list<char *> & strArgs) const;
     ///@brief The list of argument names with data type.
     std::vector<ArgumentName> argNames;
     ///@brief The target extern function
     void (* func)(void);
-    ///@brief The execution context
-    LispExecuter * executer;
     ///@brief The return type in ffi format
     ffi_type * returnType;
     ///@brief This flag is true if user wants give current stack pointer as the last argument of the function

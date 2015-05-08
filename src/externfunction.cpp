@@ -8,10 +8,11 @@
 
 #include <string>
 
-ExternFunction::ExternFunction(std::vector<ArgumentName> argNames, LispExecuter * executer,
+#define MAX_STR_SIZE 1000
+
+ExternFunction::ExternFunction(std::vector<ArgumentName> argNames,
                                void(*func)(void), ffi_type * returnType):Function(SUBR,argNames.size())
 {
-    this->executer = executer;
     this->argNames = argNames;
     this->func = func;
     this->returnType = returnType;
@@ -36,7 +37,7 @@ Data::DataType ExternFunction::toLispType(ffi_type * type) const
     ERROR_MESSAGE("Unknown type");
 }
 
-void ExternFunction::convertToCType(const Data * lispData, ffi_type * targetCType,char * cData) const
+void ExternFunction::convertToCType(const Data * lispData, ffi_type * targetCType,char * cData, std::list<char *> & strArgs) const
 {
     if (lispData->getDataType() == Data::ATOM_FLOAT)
     {
@@ -99,7 +100,13 @@ void ExternFunction::convertToCType(const Data * lispData, ffi_type * targetCTyp
     if (lispData->getDataType() == Data::ATOM_STR)
         if (targetCType == &ffi_type_pointer)
         {
-            memccpy(cData,((AtomStrData *)lispData)->getString().c_str(),0,((AtomStrData *)lispData)->getString().size());
+            char * str = new char[MAX_STR_SIZE + 1];
+            strArgs.push_back(str);
+            int size = ((AtomStrData *)lispData)->getString().size();
+            if (size > MAX_STR_SIZE)
+                size = MAX_STR_SIZE;
+            memccpy(str,((AtomStrData *)lispData)->getString().c_str(),0,size);
+            *(char **)cData = str;
             return;
         }
     delete []cData;
@@ -157,6 +164,9 @@ Result ExternFunction::run_(const Arguments &arguments, Memory *stack) const
     ffi_status status;
     Result result;
 
+    //The list of string arguments. I need it to clean memory after an extern function calling.
+    std::list<char *> strArgs;
+
     if (arguments.size() != argNames.size())
         ERROR_MESSAGE("Extern function needs " + std::to_string(argNames.size()) + " arguments!");
 
@@ -170,14 +180,14 @@ Result ExternFunction::run_(const Arguments &arguments, Memory *stack) const
             if (arguments[i].getData()->getDataType() == toLispType(argNames[i].getType()))
             {
                 arg_types[i] = argNames[i].getType();
-                convertToCType(arguments[i].getData(),argNames[i].getType(),arg_values[i]);
+                convertToCType(arguments[i].getData(),argNames[i].getType(),arg_values[i],strArgs);
             }
             else
                 ERROR_MESSAGE("Type error");
         }
 
         // Prepare the ffi_cif structure.
-        if ((status = ffi_prep_cif(&cif, FFI_DEFAULT_ABI, 2, returnType, arg_types)) != FFI_OK)
+        if ((status = ffi_prep_cif(&cif, FFI_DEFAULT_ABI, argNames.size(), returnType, arg_types)) != FFI_OK)
             ERROR_MESSAGE("FFI error. Status: " + std::to_string(status));
 
     }
@@ -198,6 +208,13 @@ Result ExternFunction::run_(const Arguments &arguments, Memory *stack) const
 
     for (unsigned int i = 0; i < argNames.size(); i++)
         delete [] arg_values[i];
+
+    //Clear string arguments. See strArgs and convertToCType.
+    while (strArgs.size() > 0)
+    {
+        delete []strArgs.back();
+        strArgs.pop_back();
+    }
 
     return result;
 }
