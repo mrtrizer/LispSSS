@@ -3,7 +3,7 @@
 #include "atomfloatdata.h"
 #include "atomintdata.h"
 #include "atomstrdata.h"
-#include "ffi.h"
+#include <ffi.h>
 #include <inttypes.h>
 
 #include <string>

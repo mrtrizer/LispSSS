@@ -2,7 +2,7 @@
 #define EXTERNFUNCTION_H
 
 #include "function.h"
-#include "ffi.h"
+#include <ffi.h>
 
 #include <vector>
 
