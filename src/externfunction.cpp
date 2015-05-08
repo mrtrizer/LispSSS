@@ -145,6 +145,8 @@ Data * ExternFunction::convertToLispType(ffi_type * sourceCType, char * cData) c
     if (dataType == Data::ATOM_STR)
         if (sourceCType == &ffi_type_pointer)
         {
+            if (*(char **)cData == 0 )
+                return new AtomStrData(std::string(""));
             AtomStrData * result = new AtomStrData(std::string(*((char **)cData)));
             //Deleting string
             delete []*((char **)cData);
