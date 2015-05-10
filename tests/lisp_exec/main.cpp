@@ -45,6 +45,5 @@ int main(int argc, char *argv[])
         Memory variables(0);
         lispExecuter.run(variables);
     }
-    getchar();
     return 0;
 }

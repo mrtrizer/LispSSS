@@ -8,7 +8,7 @@
 
 QT       -= gui
 
-TARGET = playLisp
+TARGET = ssse
 CONFIG   += console
 CONFIG   -= app_bundle
 
@@ -24,3 +24,5 @@ QMAKE_CXXFLAGS += -std=gnu++11
 SOURCES += main.cpp
 HEADERS += 
 
+target.path = /usr/local/bin
+INSTALLS += target

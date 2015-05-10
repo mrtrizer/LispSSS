@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     std::vector<ArgumentName> argumentNames;
     argumentNames.push_back(ArgumentName("a",&ffi_type_uint));
     argumentNames.push_back(ArgumentName("b",&ffi_type_float));
-    variables.setVar(Var("foo",new FuncData(new ExternFunction(argumentNames,&lispExecuter,(void(*)(void))foo,&ffi_type_pointer),&variables)));
+    variables.setVar(Var("foo",new FuncData(new ExternFunction(argumentNames,(void(*)(void))foo,&ffi_type_pointer),&variables)));
     //Runing
     lispExecuter.run(variables);
 
