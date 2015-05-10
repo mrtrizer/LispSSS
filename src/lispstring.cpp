@@ -35,8 +35,15 @@ LispNode * LispString::parseAtom(char * str, int * i)
     if (str[*i] == '\"')
     {
         (*i)++;
-        while (str[*i] != '\"')
+        while (1)
+        {
+            if (str[*i] == '\\')
+                (*i)++;
+            else
+                if (str[*i] == '\"')
+                    break;
             (*i)++;
+        }
         (*i)++;
         atom->data = new AtomStrData(std::string(str + iStart + 1,*i - iStart - 2));
     }

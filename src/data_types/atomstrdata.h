@@ -12,10 +12,29 @@ public:
     {
         for (unsigned int i = 0; i < str.size(); i++)
         {
-            if ((str[i] == '\\') && (str[i + 1] == 'n'))
+            if (str[i] == '\\')
             {
-                this->str += '\n';
-                i++;
+                switch (str[i + 1])
+                {
+                case 'n':
+                {
+                    this->str += '\n';
+                    i++;
+                    break;
+                }
+                case '\\':
+                {
+                    this->str += '\\';
+                    i++;
+                    break;
+                }
+                case '"':
+                {
+                    this->str += '\"';
+                    i++;
+                    break;
+                }
+                }
             }
             else
                 this->str += str[i];

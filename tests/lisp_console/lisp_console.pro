@@ -8,7 +8,7 @@
 
 QT       -= gui
 
-TARGET = playLisp
+TARGET = sssc
 CONFIG   += console
 CONFIG   -= app_bundle
 
