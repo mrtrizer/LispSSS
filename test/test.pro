@@ -1,9 +1,10 @@
-QT       += core testlib
-QT       -= gui
+QT += core testlib
+QT -= gui
 
-TARGET = ssse
-CONFIG   += console
-CONFIG   -= app_bundle
+TARGET = test
+CONFIG += console
+CONFIG -= app_bundle
+CONFIG += testcase
 
 TEMPLATE = app
 
@@ -16,5 +17,3 @@ QMAKE_CXXFLAGS += -std=gnu++11
 SOURCES += main.cpp testfunctions.cpp
 HEADERS += testfunctions.h
 
-target.path = /usr/local/bin
-INSTALLS += target

@@ -7,4 +7,16 @@
 
 #include "testfunctions.h"
 
-QTEST_MAIN(TestFunctions)
+int main(int argc, char** argv)
+{
+   int status = 0;
+
+   const auto RUN_TEST = [&status, argc, argv] (QObject * obj) {
+     status |= QTest::qExec(obj, argc, argv);
+     delete obj;
+   };
+
+   RUN_TEST(new TestFunctions());
+
+   return status;
+}

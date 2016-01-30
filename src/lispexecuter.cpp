@@ -144,7 +144,7 @@ Result LispExecuter::functionHandler(const Data * data, Memory * stack)
                             for (i = listData->list.begin() + 1; i != listData->list.end(); i++)
                             {
                                 curPos = i->getPos();
-                                arguments.push_back(Value(i->data->getClone()));
+                                arguments.push_back(Value(i->data));
                             }
 
                             break;

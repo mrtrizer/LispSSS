@@ -42,9 +42,8 @@ class TestFunctions : public QObject
         args.push_back(Value(&argB));
         Memory stack(nullptr);
         Value resultValue = func.run(args, &stack);
-        Data::DataType resultType = resultValue.getData()->getDataType();
-        double result = ((AtomFloatData *)resultValue.getData())->getNum();
-        QCOMPARE(resultType, Data::ATOM_FLOAT);
+        const Data * data =  resultValue.getData();
+        double result = dynamic_cast<const AtomFloatData*>(data)->getNum();
         QCOMPARE(result, expect);
     }
 
