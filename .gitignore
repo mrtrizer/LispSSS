@@ -1,7 +1,3 @@
-tests/build*
-tests/extern_func/extern_func.pro.user
-tests/lisp_exec/lisp_exec.pro.user
-tests/new_lexical_analyzer/new_lexical_analyzer.pro.user
-tests/lisp_console/lisp_console.pro.user
-tests/lisp_exec/listp_exec.pro.user
+examples/build*
+build*
 
