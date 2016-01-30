@@ -27,44 +27,28 @@ public:
         Message message;
     };
 
-    ///@brief Конструктор
-    LispString(char *str);
-    ///@brief Destructor
+    LispString(const std::string & str);
     ~LispString();
-    ///@brief Возвращает результат парсинга строки.
-    bool isValid(){return valid;}
-    ///@brief Returns messages
-    const std::vector<Message> & getMessages(){return messages;}
-    ///@brief Returns firstItem
+    bool isValid() const {return valid;}
+    const std::vector<Message> & getMessages() const {return messages;}
     LispNode * getRoot(){return firstItem;}
 
 #ifdef _QT_
-    ///@brief Method returns
     QString getErrorMessages();
-    ///@brief Конструктор, переопределенный для Qt
     LispString(const QString & str){setLispString(str.toLocal8Bit().data());}
-    ///@brief Приведение к строке для Qt.
     QString toString();
 #endif
 
 private:
-    ///@brief Определяет правильность строки. Определяется на этапе разбора.
     bool valid;
     std::vector<Message> messages;
-    ///@brief String for parsing
-    char * str;
-    ///@brief Первый элемент. Определяет корень синтаксического дерева.
+    std::string str;
     LispNode * firstItem;
-    ///@brief Анализирует атом. Определяет тип и содержание.
-    LispNode * parseAtom(char * str, int * i);
-    ///@brief Парсит список (рекурсивная)
-    LispNode * parseList(char * str, int * i, bool noFrame = false);
-    ///@brief Parse packet
-    LispNode * parsePacket(char * str, int * i, bool first = false);
-    ///@brief Search str number. It is need for debug.
+    LispNode * parseAtom(const char * str, int * i);
+    LispNode * parseList(const char * str, int * i, bool noFrame = false);
+    LispNode * parsePacket(const char * str, int * i, bool first = false);
     void findLineN(int n, char *str, int &line, int &pos);
-    ///@brief Starts parsing
-    void setLispString(char *str);
+    void setLispString(const std::string &str);
 };
 
 #endif // LISPSTRING_H

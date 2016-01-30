@@ -8,6 +8,6 @@ Result Func_parse::run_(const Arguments &arguments, Memory *stack) const
     std::string str;
     TEST_ARG(0,Data::ATOM_STR);
     str = ((AtomStrData *)arguments[0].getData())->getString();
-    LispString lispStr (str.c_str());
+    LispString lispStr (str);
     return Result(lispStr.getRoot()->data->getClone());
 }

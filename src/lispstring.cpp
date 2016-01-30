@@ -16,7 +16,7 @@
 #define IS_SPACE(c) ((c == ' ') || (c == '\n') || (c == '\t') || (c != 0))
 #define PARSE_ERROR(s,pos) throw parse_error(Message(s,pos,Message::ERROR))
 
-LispString::LispString(char *str):firstItem(0)
+LispString::LispString(const std::string & str):firstItem(0)
 {
     setLispString(str);
 }
@@ -27,7 +27,7 @@ LispString::~LispString()
         delete firstItem;
 }
 
-LispNode * LispString::parseAtom(char * str, int * i)
+LispNode * LispString::parseAtom(const char * str, int * i)
 {
     LispNode * atom = new LispNode(Pos(str,*i));
 
@@ -91,7 +91,7 @@ LispNode * LispString::parseAtom(char * str, int * i)
     return atom;
 }
 
-LispNode * LispString::parseList(char * str, int * i, bool noFrame)
+LispNode * LispString::parseList(const char * str, int * i, bool noFrame)
 {
     LispNode * list = new LispNode(Pos(str,*i));
     ListData * listData;
@@ -138,7 +138,7 @@ LispNode * LispString::parseList(char * str, int * i, bool noFrame)
     }
 }
 
-LispNode * LispString::parsePacket(char * str, int * i, bool first)
+LispNode * LispString::parsePacket(const char * str, int * i, bool first)
 {
     LispNode * packet = new LispNode(Pos(str,*i));
     ListData * listData;
@@ -178,19 +178,19 @@ LispNode * LispString::parsePacket(char * str, int * i, bool first)
 
 
 
-void LispString::setLispString(char * str)
+void LispString::setLispString(const std::string & str)
 {
     try
     {
         this->str = str;
         int i = 0;
         if (str[0] == '(')
-            firstItem = parseList(str, &i);
+            firstItem = parseList(str.data(), &i);
         else
         {
             if (str[0] != '{')
                 i--;
-            firstItem = parsePacket(str, &i,true);
+            firstItem = parsePacket(str.data(), &i,true);
         }
         valid = true;
     }

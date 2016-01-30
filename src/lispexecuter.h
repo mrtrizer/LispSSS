@@ -19,6 +19,7 @@ public:
     LispExecuter(LispString * lispString, std::ostream *errout = &std::cout, std::ostream * out = 0, std::istream * in = 0);
     void run(Memory &global);
     Result functionHandler(const Data *data, Memory *stack);
+    static std::string execStr(const std::string &str);
 
 private:
     Heap heap;

@@ -1,4 +1,4 @@
-    #include "lispexecuter.h"
+#include "lispexecuter.h"
 #include "lispstring.h"
 #include "lispnode.h"
 #include "function.h"
@@ -40,17 +40,19 @@
 #include "func_parse.h"
 #include "func_size.h"
 
-
+#include <sstream>
 #include <assert.h>
 
 LispExecuter::LispExecuter(LispString * lispString, std::ostream * errout,
-                           std::ostream * out, std::istream * in)
+                           std::ostream * out, std::istream * in) :
+    heap(),
+    lispString(lispString),
+    errout(errout),
+    out(out),
+    in(in),
+    curPos()
 {
     assert(lispString != 0);
-    this->lispString = lispString;
-    this->in = in;
-    this->out = out;
-    this->errout = errout;
 }
 
 void LispExecuter::run(Memory & global)
@@ -104,6 +106,16 @@ void LispExecuter::run(Memory & global)
         m.setPos(curPos);
         *errout << m.toString() << std::endl;
     }
+}
+
+std::string LispExecuter::execStr(const std::string & str)
+{
+    std::ostringstream ostream;
+    LispString lispString(str);
+    LispExecuter lispExecutor(&lispString, &ostream, &ostream);
+    Memory stack (nullptr);
+    lispExecutor.run(stack);
+    return ostream.str();
 }
 
 Result LispExecuter::functionHandler(const Data * data, Memory * stack)

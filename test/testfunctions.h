@@ -10,6 +10,7 @@
 #include "func__minus_.h"
 #include "func__div_.h"
 #include "atomfloatdata.h"
+#include "lispexecuter.h"
 
 class TestFunctions : public QObject
 {
@@ -65,6 +66,10 @@ private slots:
     //Div
     void div_data() {binaryRandArgs([](double a, double b) {return a / b;});}
     void div() {testBinaryOperation(Func__Div_());}
+    //Run test
+    void execStr() {
+        QCOMPARE(LispExecuter::execStr("+ 5 5"),std::string("10\n"));
+    }
 };
 
 #endif // TESTFUNCTIONS_H
