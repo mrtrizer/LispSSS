@@ -10,7 +10,6 @@
 #include "atomdata.h"
 #include "listdata.h"
 
-#include <QDebug>
 #include <assert.h>
 
 #define IS_SPACE(c) ((c == ' ') || (c == '\n') || (c == '\t') || (c != 0))
@@ -211,4 +210,3 @@ QString LispString::toString()
     return QString::fromStdString(firstItem->toString());
 }
 #endif
-

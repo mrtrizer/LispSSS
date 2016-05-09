@@ -5,6 +5,7 @@
 #include <ffi.h>
 
 #include <vector>
+#include <list>
 
 class LispExecuter;
 class Stack;
