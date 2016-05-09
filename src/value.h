@@ -2,7 +2,6 @@
 #define VALUE_H
 
 #include "data.h"
-#include <QDebug>
 
 ///@brief I don't like smart pointers.
 class Value

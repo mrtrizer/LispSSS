@@ -4,6 +4,7 @@
 #include "function.h"
 #include <ffi.h>
 
+#include <list>
 #include <vector>
 
 class LispExecuter;

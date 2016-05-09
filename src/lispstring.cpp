@@ -10,8 +10,8 @@
 #include "atomdata.h"
 #include "listdata.h"
 
-#include <QDebug>
 #include <assert.h>
+#include <cstdlib>
 
 #define IS_SPACE(c) ((c == ' ') || (c == '\n') || (c == '\t') || (c != 0))
 #define PARSE_ERROR(s,pos) throw parse_error(Message(s,pos,Message::ERROR))

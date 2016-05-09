@@ -12,7 +12,6 @@
 #include "atomfloatdata.h"
 #include "memory.h"
 #include "funcdata.h"
-#include "externfunction.h"
 #include "lexicalanalyzer.h"
 
 using namespace std;
