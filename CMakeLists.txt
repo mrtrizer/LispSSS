@@ -5,7 +5,7 @@ add_compile_options("-std=c++1y")
 
 file(GLOB SOURCES src/*.cpp src/functions/*.cpp src/data_types/*.cpp )
 
-add_library(${PROJECT_NAME} SHARED ${SOURCES})
+add_library(${PROJECT_NAME} STATIC ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC src/ src/functions/ src/data_types/)
 
