@@ -98,8 +98,7 @@ void LispExecuter::run(Memory & global)
         for (i = root->list.begin(); i != root->list.end(); i++)
             result = functionHandler(i->data,&global);
 
-        if (result.getData()->getDataType() != Data::ATOM_NIL)
-            *errout << result.getData()->toString() << std::endl;
+        *errout << result.getData()->toString() << std::endl;
     }
     catch (Message & m)
     {
